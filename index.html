@@ -1,339 +1,694 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Shamim Khaled Portfolio</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>portfolio website</title>
-    <script src="https://kit.fontawesome.com/6140d5223c.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
 
-<body>
-    <header>
-        <!-- navbar start  -->
-        <div class="container">
-            <nav>
-                <div class="logo">
-                    <img src="image/logo.PNG" alt="logo">
-                </div>
-                <ul class="menu">
-                    <li><a href="#about_section">About</a></li>
-                    <li><a href="#portfolio_section">Portfolio</a></li>
-                    <li><a href="#contact_section">Contact</a></li>
-                </ul>
-                <div class="search_bar">
-                    <input type="text" placeholder="Search">
-                    <div class="search_icon">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </div>
-                </div>
-            </nav>
-            <!-- navbar end -->
-            <!-- hero section start  -->
-            <section class="hero_section">
-                <div class="row" id="full_row">
-                    <div class="col_hero_info">
-                        <h1>I'M <span class="animate"></span></h1>
-                        <p>A passionate Python Developer and ML Engineer from Bangladesh</p>
-                        <button class="btn">Contact Me</button>
-                    </div>
-                    <div class="col_hero_img">
-                        <div class="social_icons">
-                            <a href="https://github.com/shamimkhaled" target="_blank"><i class="fa-brands fa-github"></i></a>
-                            <a href="https://www.kaggle.com/shamimkhaled" target="_blank"><i class="fa-brands fa-kaggle"></i></a>
-                            <a href="https://www.linkedin.com/in/shamim-khaled" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
-                            <a href="https://wa.me/+8801903526254" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/ionicons.min.css">
+    
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+    <link rel="stylesheet" href="css/style.css">
+
+
+
+<style>
+
+/*======================================
+//--//-->   ABOUT
+======================================*/
+
+.about-mf .box-shadow-full {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.about-mf .about-img {
+  margin-bottom: 2rem;
+}
+
+.about-mf .about-img img {
+  margin-left: 10px;
+}
+
+
+.skill-mf .progress {
+  /* background-color: #cde1f8; */
+  margin: .5rem 0 1.2rem 0;
+  border-radius: 0;
+  height: .7rem;
+}
+
+.skill-mf .progress .progress-bar {
+  height: .7rem;
+  background-color: #ffbd39;
+}
+
+
+/* Animation styles */
+#typing-animation {
+  position: relative;
+  font-size: 30px;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 3s steps(20, end) infinite;
+}
+
+#typing-animation:before {
+  content: "";
+  /* position: absolute; */
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: #ccc;
+  animation: typing-cursor 0.5s ease-in-out infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes typing-cursor {
+  from {
+    width: 5px;
+  }
+  to {
+    width: 0;
+  }
+}
+
+
+/* project image zoom effect */
+
+.zoom-effect {
+  overflow: hidden;
+  transition: transform 0.3s ease-out;
+}
+
+.zoom-effect:hover {
+  transform: scale(1.1);
+}
+
+
+</style>
+
+
+  </head>
+  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+	  
+	  
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar ftco-navbar-light site-navbar-target" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="index.html">Shamim Khaled</a>
+	      <button class="navbar-toggler js-fh5co-nav-toggle fh5co-nav-toggle" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav nav ml-auto">
+	          <li class="nav-item"><a href="#home-section" class="nav-link"><span>Home</span></a></li>
+	          <li class="nav-item"><a href="#about-section" class="nav-link"><span>About</span></a></li>
+	          <li class="nav-item"><a href="#resume-section" class="nav-link"><span>Resume</span></a></li>
+	          <li class="nav-item"><a href="#project-section" class="nav-link"><span>Projects</span></a></li>
+	          <li class="nav-item"><a href="#contact-section" class="nav-link"><span>Contact</span></a></li>
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+	  <section id="home-section" class="hero">
+		  <div class="home-slider  owl-carousel">
+	       <div class="slider-item ">
+	      	<div class="overlay"></div>
+	         <div class="container">
+	          <div class="row d-md-flex no-gutters slider-text align-items-end justify-content-end" data-scrollax-parent="true">
+	          	<div class="one-third js-fullheight order-md-last img" style="background-image:url(images/bg_5.png);">
+	          	 <div class="overlay"></div>
+	          	</div>
+		          <div class="one-forth d-flex  align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+		          	<div class="text">
+		          		<span class="subheading">Hello!</span>
+			            <h1 class="mb-4 mt-3">I'm <span>Shamim Khaled</span></h1>
+
+						<!-- Element to contain animated typing -->
+						<span id="typing-animation"></span>
+
+						<script>
+
+						// Initialize the typing animation
+						const typingAnimationElement = document.getElementById('typing-animation');
+
+						// Create an array of typing text
+						const typingTexts = [
+						'ML Engineer  ',
+						// 'Python Developer  ',
+						'Software Developer   ',
+						];
+
+						// Create a function to display the typing animation for a given text
+						function playTypingAnimation(text) {
+						// Loop through each character and add it to the element
+						for (let i = 0; i < text.length; i++) {
+							setTimeout(() => {
+							typingAnimationElement.textContent += text[i];
+							}, i * 200); // Increase the delay to slow down the typing animation
+						}
+
+						// Once the animation is complete, reset the text and start over
+						setTimeout(() => {
+							typingAnimationElement.textContent = '';
+							playTypingAnimation(typingTexts[(typingTexts.indexOf(text) + 1) % typingTexts.length]);
+						}, text.length * 200);
+						}
+
+						// Start the typing animation loop
+						playTypingAnimation(typingTexts[0]);
+
+						</script>
+
+						<br>
+						<br>
+			            <h2>A Python Developer</h2>
+						<!-- <h2 class="d-flex" style="margin-bottom: 0">With over 5 years of experience</h2> -->
+						<!-- <br> -->
+			            <p><a href="https://www.youtube.com/@spikegrowth" class="btn btn-primary py-3 px-4">YouTube</a> 
+							<a href="https://github.com/shamimkhaled" class="btn btn-white btn-outline-white py-3 px-4">My works</a></p>
+		            </div>
+		          </div>
+	        	</div>
+	        </div>
+	      </div>
+		</div>
+    </section>
+
+
+
+    <section class="ftco-about img ftco-section ftco-no-pb" id="about-section">
+    	<div class="container">
+			<div class="row">
+				<div class="row d-flex align-items-stretch">
+				<!-- <div class="row d-flex"> -->
+					<div class="col-md-6 col-lg-5 d-flex">
+						<div class="img-about img d-flex align-items-stretch">
+							<div class="overlay">
+								<div class="row">
+									<div class="col-sm-6 col-md-5">
+									  <div class="about-img">
+										<img src="images/about-me.png" class="img-fluid rounded b-shadow-a" alt="">
+									  </div>
+									</div>
+									<!-- Details next to profile image -->
+									<div class="col-sm-6 col-md-7">
+									  <div class="about-info">
+										<p><span class="title-s">Name: </span> <span>Shamim Khaled</span></p>
+										<p><span class="title-s">Job Role: </span> <span>Python Developer</span></p>
+										<p><span class="title-s">Experience: </span> <span>2 Years 1 Months</span></p>
+										<p><span class="title-s">Address: </span> <span>Dhaka, Bangladesh</span></p>
+									  </div>
+									</div>
+								  </div>
+
+								<div class="skill-mf">
+									<p class="title-s">Skills</p>
+									
+									<span>PYTHON</span> <span class="pull-right">90%</span>
+									<div class="progress">
+										<div class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0"
+											aria-valuemax="100"></div>
+									</div>
+
+									<span>Machine Learning</span> <span class="pull-right">85%</span>
+									<div class="progress">
+										<div class="progress-bar" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0"
+											aria-valuemax="100"></div>
+									</div>
+									
+									<span>Deep Learning</span> <span class="pull-right">80%</span>
+									<div class="progress">
+										<div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0"
+											aria-valuemax="100"></div>
+									</div>
+									
+									<span>Web Development </span> <span class="pull-right">85%</span>
+									<div class="progress">
+										<div class="progress-bar" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0"
+											aria-valuemax="100"></div>
+									</div>
+									
+								
+
+									<span>SQL</span> <span class="pull-right">85%</span>
+									<div class="progress">
+										<div class="progress-bar" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0"
+											aria-valuemax="100"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-6 col-lg-7 pl-lg-5 pb-5">
+						<div class="row justify-content-start pb-3">
+							<div class="col-md-12 heading-section ftco-animate">
+								
+								<h1 class="big">About</h1>
+								<h2 class="mb-4">About Me</h2>
+								
+								<p>I am a Python Developer and Machine Learning Engineer with 2 years of experience in building complex AI, ML, and web applications. 
+									Skilled at writing clear, concise code that is easy to maintain and troubleshoot. 
+									 I am well-versed in Machine Learning, Python Web Framework Django, JavaScript, and Software Development.
+									 My areas of expertise are data analysis, machine learning, deep learning, web scraping, and web application development. </p>
+								<ul class="about-info mt-4 px-md-0 px-2">
+									<li class="d-flex"><span>Programming Languages:</span> <span>Python, JavaScript, Java, C/C++</span></li>
+									<li class="d-flex"><span>Web Development:</span> <span>Python Django and DRF, JavaScript, HTML5, CSS3, Bootstrap5</span></li>
+									<li class="d-flex"><span>Database:</span> <span>SQLite, MySQL, PostgreSQL, MongoDB</span></li>
+									<li class="d-flex"><span>Version Controlling systems:</span> <span>Git</span></li>
+									<li class="d-flex"><span>Web Scraping:</span> <span>Proficient in extracting and processing data with BeautifulSoup and Selenium</span></li>
+									<li class="d-flex"><span>Data Science:</span> <span>Pandas, Numpy, Matplotlib, Scikit-Learn, Seaborn, and others</span></li>
+									<li class="d-flex"><span>Machine Learning and Deep Learning:</span> <span>TensorFlow, PyTorch</span></li>
+
+
+									<li class="d-flex"><span>Language:</span> <span>Bengali, English, Hindi</span></li>
+								
+									<li class="d-flex"><span>Interest:</span> <span>Traveling, Travel Photography, Teaching</span></li>
+									
+								</ul>
+							</div>
+						</div>
+
+
+						<div class="counter-wrap ftco-animate d-flex mt-md-3">
+							<div class="text">
+								<p class="mb-4">
+									<span class="number" data-number="30">0</span> <span>+</span>
+									<span>&nbsp; Projects completed</span>
+								</p>
+								<p><a href="https://www.linkedin.com/in/shamim-khaled" class="btn btn-primary py-3 px-3">LinkedIn</a></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </section>
+
+
+
+	<section class="ftco-section ftco-no-pb" id="resume-section">
+		<div class="container">
+			<div class="row justify-content-center pb-5">
+				<div class="col-md-10 heading-section text-center ftco-animate">
+					<h1 class="big big-2">Resume</h1>
+					<h2 class="mb-4">Resume</h2>
+					<p>Seasoned Python Developer with 2 years of hands-on experience in AI/ML, web applications, and backend systems. 
+						Proven expertise in data science, machine learning algorithms, and web development.</p>
+				</div>
+			</div>
+	
+			<div class="row">
+				<h1 class="big-4">Experience</h1>
+				<div class="underline"></div>
+			</div>
+			<br>
+			
+			<div class="row">
+				<div class="col-md-6">
+					<div class="resume-wrap ftco-animate">
+						<span class="date">Sept 2022 - April 2024</span>
+						<h2>Python Web Developer (Django)</h2>
+						<span class="position">Rana Motors, Dhaka (Hybrid)</span>
+						<p class="mt-4">
+							
+							Here, I worked on the "Inventory Management System" Django web-based application for Rana Motors,
+							 which allowed me to gain valuable insights into web development and database management.
+							 
+						</p>
+					</div>
+				</div>
+	
+				<div class="col-md-6">
+					<div class="resume-wrap ftco-animate">
+						<span class="date">May 2024 - July 2024</span>
+						<h2>Python Developer (Django)</h2>
+						<span class="position">Face Of Art Technologies</span>
+						<p class="mt-4">
+							➢Here,I've worked on an e-commerce web application, with an emphasis on building reliable back-end APIs 
+							using the Django Rest Framework for seamless functionality and performance. 
+						
+						</p>
+					</div>
+				</div>
+	
+				<div class="col-md-6">
+					<div class="resume-wrap ftco-animate">
+						<span class="date">Sept 2023 - Feb 2024</span>
+						<h2>Machine Learning Engineer</h2>
+						<span class="position">Engineer Hut, Bangladesh (Remote)</span>
+						<p class="mt-4">
+							As a Machine Learning Engineer at Engineer Hut, I was responsible for collecting, preprocessing, and analyzing large datasets 
+							to train and optimize deep learning models. I developed and implemented machine learning and deep learning models, collaborating 
+							with teams to gather and analyze data for model training and evaluation.
+						</p>
+					</div>
+				</div>
+			</div>
+	
+			<br><br>
+	
+			<div class="row">
+				<h1 class="big-4">Education</h1>
+				<div class="underline"></div>
+			</div>
+			<br>
+			
+			<div class="row">
+				<div class="col-md-6">
+					<div class="resume-wrap ftco-animate">
+						<span class="date">2018-2022</span>
+						<h2>BSc. in Computer Science and Engineering</h2>
+						<span class="position">North South University, Bangladesh</span>
+					</div>
+				</div>
+			</div>
+	
+			<div class="row justify-content-center mt-5">
+				<div class="col-md-6 text-center ftco-animate">
+					<p><a href="#" class="btn btn-primary py-4 px-5">Download CV</a></p>
+				</div>
+			</div>
+		</div>
+	</section>
+		
+ 
+   
+<!-- Project Showcase  -->
+<section class="ftco-section" id="project-section">
+	<div class="container">
+	  <div class="row justify-content-center mb-5 pb-5">
+		<div class="col-md-7 heading-section text-center ftco-animate">
+		  <h1 class="big big-2">Projects</h1>
+		  <h2 class="mb-4">Projects</h2>
+		  <p>Below are the sample AI, ML, and data analytics projects.</p>
+		</div>
+	  </div>
+	  <div class="row d-flex">
+		<div class="col-md-4 d-flex ftco-animate">
+		  <div class="blog-entry justify-content-end">
+			<a href="https://github.com/shamimkhaled" class="block-20 zoom-effect" style="background-image: url('images/proj_1.jpg');">
+			</a>
+			<div class="text mt-3 float-right d-block">
+			  <h3 class="heading"><a href="https://github.com/shamimkhaled">LLM Q&A Chatbot with OpenAI, Langchain, VectorDB</a></h3>
+			  <p>Developed an advanced chatbot utilizing OpenAI's LLM, Langchain framework, and VectorDB for efficient Q&A functionalities.</p>
+			</div>
+		  </div>
+		</div>
+		<div class="col-md-4 d-flex ftco-animate">
+		  <div class="blog-entry justify-content-end">
+			<a href="https://github.com/shamimkhaled" class="block-20 zoom-effect" style="background-image: url('images/proj_2.jpg');">
+			</a>
+			<div class="text mt-3 float-right d-block">
+			  <h3 class="heading"><a href="https://github.com/shamimkhaled">PDF Chatbot with OpenAI model LLM, Langchain, VectorDB</a></h3>
+			  <p>Created a chatbot to analyze PDF documents using OpenAI's language models and VectorDB for improved data extraction.</p>
+			</div>
+		  </div>
+		</div>
+		<div class="col-md-4 d-flex ftco-animate">
+		  <div class="blog-entry justify-content-end">
+			<a href="https://github.com/shamimkhaled" class="block-20 zoom-effect" style="background-image: url('images/proj_3.jpg');">
+			</a>
+			<div class="text mt-3 float-right d-block">
+			  <h3 class="heading"><a href="https://github.com/shamimkhaled">Gemini Pro Vision AI Model ATS - Resume Tracking System</a></h3>
+			  <p>Designed an AI-powered resume tracking system to analyze resumes and track candidates' application status efficiently.</p>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	  <br>
+	  <div class="row d-flex justify-content-center">
+		<div class="col-md-4 d-flex ftco-animate">
+		  <div class="blog-entry justify-content-end">
+			<a href="https://github.com/shamimkhaled" class="block-20 zoom-effect" style="background-image: url('images/proj_4.jpg');">
+			</a>
+			<div class="text mt-3 float-right d-block">
+			  <h3 class="heading"><a href="https://github.com/shamimkhaled">Web Scraping with LLM</a></h3>
+			  <p>Developed a web scraping tool using LLM models to extract and analyze web data more effectively.</p>
+			</div>
+		  </div>
+		</div>
+		<div class="col-md-4 d-flex ftco-animate">
+		  <div class="blog-entry justify-content-end">
+			<a href="https://github.com/shamimkhaled" class="block-20 zoom-effect" style="background-image: url('images/proj_5.jpg');">
+			</a>
+			<div class="text mt-3 float-right d-block">
+			  <h3 class="heading"><a href="https://github.com/shamimkhaled">Stock Market Prices Analysis and Prediction in ML (ARIMA, LSTM, PROPHET, GRU)</a></h3>
+			  <p>Used various machine learning models like ARIMA, LSTM, PROPHET, and GRU to predict stock market prices.</p>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	  <br>
+	  <div class="row d-flex justify-content-center">
+		<div class="col-md-4 d-flex ftco-animate">
+		  <div class="blog-entry justify-content-end">
+			<a href="https://github.com/shamimkhaled" class="block-20 zoom-effect" style="background-image: url('images/proj_6.jpg');">
+			</a>
+			<div class="text mt-3 float-right d-block">
+			  <h3 class="heading"><a href="https://github.com/shamimkhaled">Water Quality Factor Prediction in ML (Random Forest, Decision Tree, XGBoost, LightGBM)</a></h3>
+			  <p>Developed machine learning models to predict water quality factors using Random Forest, Decision Tree, XGBoost, and LightGBM.</p>
+			</div>
+		  </div>
+		</div>
+		<div class="col-md-4 d-flex ftco-animate">
+		  <div class="blog-entry justify-content-end">
+			<a href="https://github.com/shamimkhaled" class="block-20 zoom-effect" style="background-image: url('images/proj_7.jpg');">
+			</a>
+			<div class="text mt-3 float-right d-block">
+			  <h3 class="heading"><a href="https://github.com/shamimkhaled">Breast Cancer Prediction in ML (Random Forest, Decision Tree, XGBoost, LightGBM, Gradient Boosting, SVM, Logistic Regression, MLP)</a></h3>
+			  <p>Created machine learning models to predict breast cancer, incorporating a variety of algorithms for high accuracy.</p>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	  <br>
+	  <div class="row d-flex justify-content-center">
+		<div class="col-md-4 d-flex ftco-animate">
+		  <div class="blog-entry justify-content-end">
+			<a href="https://github.com/shamimkhaled" class="block-20 zoom-effect" style="background-image: url('images/proj_8.jpg');">
+			</a>
+			<div class="text mt-3 float-right d-block">
+			  <h3 class="heading"><a href="https://github.com/shamimkhaled">Ball Image Classification with CNN</a></h3>
+			  <p>Implemented a CNN model to classify ball images with high accuracy and optimized performance.</p>
+			</div>
+		  </div>
+		</div>
+		<div class="col-md-4 d-flex ftco-animate">
+		  <div class="blog-entry justify-content-end">
+			<a href="https://github.com/shamimkhaled" class="block-20 zoom-effect" style="background-image: url('images/proj_9.jpg');">
+			</a>
+			<div class="text mt-3 float-right d-block">
+			  <h3 class="heading"><a href="https://github.com/shamimkhaled">Image Classification (CNN, VGG19)</a></h3>
+			  <p>Utilized CNN and VGG19 models to classify images with improved precision.</p>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	  <br>
+	  <div class="row d-flex justify-content-center">
+		<div class="col-md-4 d-flex ftco-animate">
+		  <div class="blog-entry justify-content-end">
+			<a href="https://github.com/shamimkhaled" class="block-20 zoom-effect" style="background-image: url('images/proj_10.jpg');">
+			</a>
+			<div class="text mt-3 float-right d-block">
+			  <h3 class="heading"><a href="https://github.com/shamimkhaled">Emotion Speech Recognition in NLP (LSTM Model)</a></h3>
+			  <p>Built an LSTM-based model for recognizing emotions in speech using NLP techniques.</p>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </section>
+  <!-- End of Project Showcase -->
+  
+
+	<section class="ftco-section ftco-no-pt ftco-no-pb ftco-counter img" id="section-counter">
+      <div class="container">
+		<div class="row d-md-flex align-items-center">
+          <div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
+            <div class="block-18">
+              <div class="text">
+                <strong class="number" data-number="20">0</strong>
+                <span>Achievements</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
+            <div class="block-18">
+              <div class="text">
+                <strong class="number" data-number="30">0</strong>
+                <span>Projects</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
+            <div class="block-18">
+              <div class="text">
+                <strong class="number" data-number="1000">0</strong>
+                <span>Mentored Students</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
+            <div class="block-18">
+              <div class="text">
+                <strong class="number" data-number="500">0</strong>
+                <span>Cups of coffee</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <!-- hero section end  -->
-    </header>
-    <main>
-        <!-- About section start  -->
-        <section id="about_section" class="container">
-            <div class="about_info">
-                <h1>About</h1>
-                <p>I specialize in a diverse range of skills including Web Scraping, Data Analysis, Machine Learning, Deep Learning, NLP, and Web Application Development.
-                     My proficiency extends to Python's robust ecosystem – from <span style="color:#ffc86b"> Pandas, Numpy, and Matplotlib to Scikit-Learn, TensorFlow, PyTorch, and beyond.</span>
-                     In addition, I have knowledge of HTML5, CSS3, Bootstrap5, JavaScript, the Python web framework Django with Restful API, SQL (including MySQL and PostgreSQL), and a basic understanding of React JS 
-                    </p>
-            </div>
-        </section>
-        <!-- About section end  -->
-        <!-- Skill section start -->
-        <section id="skill_section" class="container">
-            <h1>My Skills</h1>
-            <div class="skill_part_one">
-                <div class="skill_card">
-                    <img src="image/1.png" alt="">
-                    <h3>Python</h3>
-                </div>
-                <div class="skill_card">
-                    <img src="image/django.png" alt="">
-                    <h3>Django</h3>
-                </div>
+      </div>
+	
+	  <div class="ftco-section ftco-hireme img margin-top" style="background-image: url(images/bg_1.jpg)">
+			<!-- <div class="container"> -->
+				<div class="row justify-content-center">
+					<div class="col-md-7 ftco-animate text-center">
+						<h2>More projects on<span> Github  </span> </h2>
+						<div class="heading"> <h4> I love to solve business problems &amp; uncover hidden data stories </h4>
+						<br>
+						<p><a href="https://github.com/shamim" class="btn btn-primary py-3 px-5">GitHub</a></p>
+						</div>
+					</div>
+				</div>
+			<!-- </div> -->
+		</div>
+	</section>
 
-                
-                <div class="skill_card">
-                    <img src="image/pandas.png" alt="">
-                    <h3>Pandas</h3>
-                </div>
-               
-                <div class="skill_card">
-                    <img src="image/scikit-learn.png" alt="">
-                    <h3>Scikit-Learn</h3>
-                </div>
-                 <div class="skill_card">
-                    <img src="image/matplot.png" alt="">
-                    <h3>Matplotlib</h3>
-                </div> <div class="skill_card">
-                    <img src="image/seaborn.png" alt="">
-                    <h3>Seaborn</h3>
-                </div>
+<!-- End Project Showcase  -->
 
-                <div class="skill_card">
-                    <img src="image/Tensorflow.png" alt="">
-                    <h3>TensorFlow</h3>
-                </div>
-                <div class="skill_card">
-                    <img src="image/pytorch.png" alt="">
-                    <h3>PyTorch</h3>
-                </div> 
-                
-                
-                
-                <div class="skill_card">
-                    <img src="image/7.png" alt="">
-                    <h3>HTML and CSS</h3>
-                </div>
-                <div class="skill_card">
-                    <img src="image/bootstrap.png" alt="">
-                    <h3>Bootstrap</h3>
-                </div>
-                <div class="skill_card">
-                    <img src="image/8.png" alt="">
-                    <h3>JavaScript</h3>
-                </div>
-                 <div class="skill_card">
-                    <img src="image/react.png" alt="">
-                    <h3>React JS</h3>
-                </div>
-
-            </div>
-            <div class="skill_part_one">
-                <div class="skill_card">
-                    <img src="image/4.png" alt="">
-                    <h3>Git</h3>
-                </div>
-               
-                <div class="skill_card">
-                    <img src="image/postman.png" alt="">
-                    <h3>Postman</h3>
-                </div>
-              
-                <div class="skill_card">
-                    <img src="image/6.png" alt="">
-                    <h3>MongoDB</h3>
-                </div> 
-                <div class="skill_card">
-                    <img src="image/sqllite.png" alt="">
-                    <h3>SQLite</h3>
-                </div>
-          
-             </div>
-
-            <div class="skill_part_three">
-
-              
-
-                <div class="skill_card">
-                    <img src="image/12.png" alt="">
-                    <h3>MySQL</h3>
-                </div>
-                <div class="skill_card">
-                    <img src="image/postgresql.png" alt="">
-                    <h3>PostgreSQL</h3>
-                </div>
-
-            </div>
-
-        </section>
-        <!-- Skill section end -->
-        <!-- portfolio section start  -->
-        <section id="portfolio_section" class="container">
-            <h1>Portfolio</h1>
-            <div class="portfolio_all_card">
-                <!-- card one  -->
-                <div class="portfolio_card">
-                    <img src="image/p1.PNG" alt="">
-                    <div class="portfolio_card_info">
-                        <h2>Amazon Scrapper</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae velit, est vero fugit
-                            sunt laborum?</p>
-                        <a href="#" class="button">see more</a>
-                    </div>
-                </div>
-                <!-- card two  -->
-                <div class="portfolio_card">
-                    <img src="image/p3.PNG" alt="">
-                    <div class="portfolio_card_info">
-                        <h2>Amazon Scrapper</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae velit, est vero fugit
-                            sunt laborum?</p>
-                        <a href="#" class="button">see more</a>
-                    </div>
-                </div>
-                <!-- card three  -->
-                <div class="portfolio_card">
-                    <img src="image/p3.PNG" alt="">
-                    <div class="portfolio_card_info">
-                        <h2>Amazon Scrapper</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae velit, est vero fugit
-                            sunt laborum?</p>
-                        <a href="#" class="button">see more</a>
-                    </div>
-                </div>
-                <!-- card four  -->
-                <div class="portfolio_card">
-                    <img src="image/p4.PNG" alt="">
-                    <div class="portfolio_card_info">
-                        <h2>Amazon Scrapper</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae velit, est vero fugit
-                            sunt laborum?</p>
-                        <a href="#" class="button">see more</a>
-                    </div>
-                </div>
-                <!-- card five  -->
-                <div class="portfolio_card">
-                    <img src="image/p5.PNG" alt="">
-                    <div class="portfolio_card_info">
-                        <h2>Amazon Scrapper</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae velit, est vero fugit
-                            sunt laborum?</p>
-                        <a href="#" class="button">see more</a>
-                    </div>
-                </div>
-                <!-- card six  -->
-                <div class="portfolio_card">
-                    <img src="image/p5.PNG" alt="">
-                    <div class="portfolio_card_info">
-                        <h2>Amazon Scrapper</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae velit, est vero fugit
-                            sunt laborum?</p>
-                        <a href="#" class="button">see more</a>
-                    </div>
-                </div>
-            </div>
-            <div class="more_button">
-                <a href="#" class="more_btn">View More</a>
-            </div>
-        </section>
-        <!-- portfolio section end  -->
-        <!-- experience section start  -->
-        <section id="experience_section">
-            <div class="container">
-                <h1 class="exp_title">Experience</h1>
-                <!-- part one  -->
-                <div class="experience">
-                    <div class="experience_info">
-                        <h1>Sep 2023 - Present</h1>
-                        <div class="experience_contents">
-                            <h2>Machine Learning Engineer</h2>
-                            <div class="experience_content">
-                                <h3>Engineer Hut (Remote)</h3>
-                                <p>Here, I have worked as a Machine Learning Engineer, and now I am working on a project with our ML team 
-                                    that involves "Food Dish Recipe Recommendations System based on Ingredients using Deep Learning Techniques, 
-                                    and we are also deploying this model to integrate into a web application.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- part two  -->
-                <div class="experience">
-                    <div class="experience_info">
-                        <h1>Sept 2022 - Nov 2023</h1>
-                        <div class="experience_contents">
-                            <h2>Python Web Developer (Django)</h2>
-                            <div class="experience_content">
-                                <h3>Rana Motors, Dhaka</h3>
-                                <p>
-                                    I worked as a Python web developer at Rana Motors. Here, I worked on the 
-                                    "Inventory Management System" Django web-based application for Rana Motors, 
-                                    which allowed me to gain valuable insights into web development and database management. 
-
-                                </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- experience section end  -->
-        <!-- testimonial section start  -->
-        <!-- <section id="testimonial_section">
-            <div class="testimonial">
-                <div class="testimonial_info container">
-                    <h1>Testimonial</h1>
-                    <p><span style="color:#ffc86b">Lorem, ipsum dolor sit amet</span> consectetur adipisicing elit. Impedit atque modi, labore sed incidunt corrupti ad error corporis nesciunt cum eveniet alias qui animi, explicabo, necessitatibus fugiat rem harum saepe.</p>
-                    <h5>Josef Sharon</h5>
-                    <h6>CEO, Omisoft</h6>
-                </div>
-                <div class="testimonial_img">
-                    <img src="image/test3.png" alt="">
-                </div>
-            </div>
-        </section> -->
-        <!-- testimonial section end  -->
-        <!-- contact section start  -->
-            <section class="contact" id="contact_section">
-                <div class="contact_title">
-                    <h1>Contact Me</h1>
-                </div>
-                <div class="contact_info">
-                    <div class="email">
-                        <i class="fa-regular fa-envelope"></i>
-                        <p>i.amshamim94@gmail.com</p>
-                    </div>
-                    <!-- <div class="phone">
-                        <i class="fa-solid fa-phone"></i>
-                        <p></p>
-                    </div> -->
-                </div>
-                <div class="location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <p>Dhaka, Bangladesh</p>
-                </div>
-                <div class="footer_social_icon">
-                    <a href="https://github.com/shamimkhaled" target="_blank"><i class="fa-brands fa-github"></i></a>
-                    <a href="https://www.kaggle.com/shamimkhaled" target="_blank"><i class="fa-brands fa-kaggle"></i></a>
-                    <a href="https://www.linkedin.com/in/shamim-khaled" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="https://wa.me/+8801903526254" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-                </div>
-            </section>
-        <!-- contact section end -->
-        <!-- footer section start  -->
-        <div class="footer">
-            <h1>"Thanks for Scorolling"</h1>
+    <section class="ftco-section contact-section ftco-no-pb" id="contact-section">
+      <div class="container">
+      	<div class="row justify-content-center mb-5 pb-3">
+          <div class="col-md-7 heading-section text-center ftco-animate">
+            <h1 class="big big-2">Contact</h1>
+            <h2 class="mb-4">Contact Me</h2>
+            <p>Below are the details to reach out to me!</p>
+          </div>
         </div>
-        <!-- footer section end  -->
 
-    </main>
+        <div class="row d-flex contact-info mb-5">
+          <div class="col-md-6 col-lg-3 d-flex ftco-animate">
+          	<div class="align-self-stretch box p-4 text-center">
+          		<div class="icon d-flex align-items-center justify-content-center">
+          			<span class="icon-map-signs"></span>
+          		</div>
+          		<h3 class="mb-4">Address</h3>
+	            <p>Dhaka, Bangladesh</p>
+	          </div>
+          </div>
+          <div class="col-md-6 col-lg-3 d-flex ftco-animate">
+          	<div class="align-self-stretch box p-4 text-center">
+          		<div class="icon d-flex align-items-center justify-content-center">
+          			<span class="icon-phone2"></span>
+          		</div>
+          		<h3 class="mb-4">Contact Number</h3>
+	            <p><a href="tel://0101010101">+ 0 101 0101 101</a></p>
+	          </div>
+          </div>
+          <div class="col-md-6 col-lg-3 d-flex ftco-animate">
+          	<div class="align-self-stretch box p-4 text-center">
+          		<div class="icon d-flex align-items-center justify-content-center">
+          			<span class="icon-paper-plane"></span>
+          		</div>
+          		<h3 class="mb-4">Email Address</h3>
+	            <p><a href="mailto:info@yoursite.com">conctact@yoursite.com</a></p>
+	          </div>
+          </div>
+          <div class="col-md-6 col-lg-3 d-flex ftco-animate">
+          	<div class="align-self-stretch box p-4 text-center">
+          		<div class="icon d-flex align-items-center justify-content-center">
+          			<span class="icon-globe"></span>
+          		</div>
+          		<h3 class="mb-4">Download Resume</h3>
+	            <p><a href="#">resumelink</a></p>
+	          </div>
+          </div>
+
+		  <div class="container">
+			<br>
+			<br>
+			<div class="row justify-content-center">
+				<div class="col-md-7 ftco-animate text-center">
+					<h2>Have a<span> Question?  </span> <a href="https://forms.gle/NLQQYNtkvrtvuF2k7" class="btn btn-primary py-3 px-5">Click Here</a> </h2>
+				</div>
+			</div>
+				<br>
+					<ul class="ftco-footer-social list-unstyled d-flex justify-content-center align-items-center mb-0">
+					  <li class="ftco-animate normal-txt">Find me on  </li>
+					  <li class="ftco-animate"><a href="https://www.youtube.com/@spikegrowth"><span class="icon-youtube"></span></a></li>
+					  <li class="ftco-animate"><a href="https://www.linkedin.com/in/shamim-khaled/"><span class="icon-linkedin"></span></a></li>  
+					  <!-- <li class="ftco-animate"><a href="https://twitter.com/"><span class="icon-twitter"></span></a></li>
+					  <li class="ftco-animate"><a href="https://twitter.com/"><span class="icon-facebook"></span></a></li> -->
+				      <li class="ftco-animate"><a href="https://www.instagram.com/shamimkhaled/"><span class="icon-instagram"></span></a></li>
+					</ul>
+				<br>
+		   </div>
+   </div>
+ </section>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script>
-        let typed = new Typed('.animate', {
-            strings: [
-                "Shamim Khaled",
-            ],
-            typeSpeed: 100,
-            backSpeed: 80,
-            loop: true
-        });
-    </script>
+ 
+	
+    <footer class="ftco-footer ftco-section">
+		<div class="container">
+		  <div class="row">
+			<div class="col-md-12 text-center">
+  
+			  <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+	Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+	<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+			</div>
+		  </div>
+		</div>
+	  </footer>
 
-</body>
 
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/jquery.waypoints.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/jquery.animateNumber.min.js"></script>
+  <script src="js/scrollax.min.js"></script>
+  
+  <script src="js/main.js"></script>
+    
+  </body>
 </html>
