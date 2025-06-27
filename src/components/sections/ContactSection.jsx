@@ -1,6 +1,6 @@
 // src/components/sections/ContactSection.jsx
 import React, { useState } from 'react';
-import { Send, Mail, Phone, MapPin, Clock, Github, Linkedin, Youtube } from 'lucide-react';
+import { Send, Mail, Phone, MapPin, Clock, Github, Linkedin, Youtube, CheckCircle, AlertCircle } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 
 const ContactSection = () => {
@@ -14,6 +14,9 @@ const ContactSection = () => {
     message: ''
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+
   const handleFormChange = (e) => {
     setFormData({
       ...formData,
@@ -21,11 +24,54 @@ const ContactSection = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    setIsSubmitting(true);
     // Email notification logic would go here
     alert('Message sent successfully! I\'ll get back to you within 24 hours.');
-    setFormData({ name: '', email: '', subject: '', budget: '', timeline: '', message: '' });
+    setSubmitStatus(null);
+
+    try {
+      // Initialize EmailJS (you can also do this in your main app file)
+      const emailjs = (await import('emailjs-com')).default;
+      
+      // EmailJS configuration
+      const serviceID = 'service_0zajjqr';
+      const templateID = 'template_17h7muw';
+      const publicKey = 'KhzHXlrm1yBH8il8j';
+
+      // Prepare template parameters matching your EmailJS template
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        budget: formData.budget || 'Not specified',
+        timeline: formData.timeline || 'Not specified',
+        message: formData.message,
+        to_email: 'i.amshamim94@gmail.com' // Your email
+      };
+
+      // Send email
+      const response = await emailjs.send(
+        serviceID,
+        templateID,
+        templateParams,
+        publicKey
+      );
+
+      if (response.status === 200) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', subject: '', budget: '', timeline: '', message: '' });
+      } else {
+        throw new Error('Failed to send email');
+      }
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
@@ -201,7 +247,28 @@ const ContactSection = () => {
                 darkMode ? 'text-white' : 'text-gray-900'
               }`}>Send Me a Message</h3>
               
-              <div className="space-y-6">
+              {/* Success/Error Messages */}
+              {submitStatus && (
+                <div className={`mb-6 p-4 rounded-xl flex items-center space-x-3 ${
+                  submitStatus === 'success' 
+                    ? darkMode ? 'bg-green-900/30 border border-green-800 text-green-300' : 'bg-green-100 border border-green-200 text-green-800'
+                    : darkMode ? 'bg-red-900/30 border border-red-800 text-red-300' : 'bg-red-100 border border-red-200 text-red-800'
+                }`}>
+                  {submitStatus === 'success' ? (
+                    <>
+                      <CheckCircle className="w-5 h-5" />
+                      <span>Message sent successfully! I'll get back to you within 24 hours.</span>
+                    </>
+                  ) : (
+                    <>
+                      <AlertCircle className="w-5 h-5" />
+                      <span>Failed to send message. Please try again or contact me directly at i.amshamim94@gmail.com</span>
+                    </>
+                  )}
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name & Email Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -216,11 +283,12 @@ const ContactSection = () => {
                       value={formData.name}
                       onChange={handleFormChange}
                       required
+                      disabled={isSubmitting}
                       className={`w-full px-4 py-4 rounded-xl border transition-all duration-200 ${
                         darkMode 
                           ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-blue-500' 
                           : 'bg-white border-gray-300 placeholder-gray-500 focus:border-blue-500'
-                      } focus:ring-2 focus:ring-blue-500/20 focus:outline-none`}
+                      } focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:opacity-50`}
                       placeholder="John Doe"
                     />
                   </div>
@@ -236,11 +304,12 @@ const ContactSection = () => {
                       value={formData.email}
                       onChange={handleFormChange}
                       required
+                      disabled={isSubmitting}
                       className={`w-full px-4 py-4 rounded-xl border transition-all duration-200 ${
                         darkMode 
                           ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-blue-500' 
                           : 'bg-white border-gray-300 placeholder-gray-500 focus:border-blue-500'
-                      } focus:ring-2 focus:ring-blue-500/20 focus:outline-none`}
+                      } focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:opacity-50`}
                       placeholder="john@example.com"
                     />
                   </div>
@@ -259,11 +328,12 @@ const ContactSection = () => {
                     value={formData.subject}
                     onChange={handleFormChange}
                     required
+                    disabled={isSubmitting}
                     className={`w-full px-4 py-4 rounded-xl border transition-all duration-200 ${
                       darkMode 
                         ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-blue-500' 
                         : 'bg-white border-gray-300 placeholder-gray-500 focus:border-blue-500'
-                    } focus:ring-2 focus:ring-blue-500/20 focus:outline-none`}
+                    } focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:opacity-50`}
                     placeholder="AI/ML Development Project"
                   />
                 </div>
@@ -280,15 +350,17 @@ const ContactSection = () => {
                       name="budget"
                       value={formData.budget}
                       onChange={handleFormChange}
+                      disabled={isSubmitting}
                       className={`w-full px-4 py-4 rounded-xl border transition-all duration-200 ${
                         darkMode 
                           ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500' 
                           : 'bg-white border-gray-300 focus:border-blue-500'
-                      } focus:ring-2 focus:ring-blue-500/20 focus:outline-none`}
+                      } focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:opacity-50`}
                     >
                       <option value="">Select Budget Range</option>
-                      <option value="<$1000">Less than $1,000</option>
-                      <option value="$1000-$5000">$1,000 - $5,000</option>
+                      <option value="<$500">Less than $500</option>
+                      <option value="$500-$2500">$500 - $2,500</option>
+                      <option value="$2500-$5000">$2,500 - $5,000</option>
                       <option value="$5000-$10000">$5,000 - $10,000</option>
                       <option value="$10000+">$10,000+</option>
                     </select>
@@ -303,11 +375,12 @@ const ContactSection = () => {
                       name="timeline"
                       value={formData.timeline}
                       onChange={handleFormChange}
+                      disabled={isSubmitting}
                       className={`w-full px-4 py-4 rounded-xl border transition-all duration-200 ${
                         darkMode 
                           ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500' 
                           : 'bg-white border-gray-300 focus:border-blue-500'
-                      } focus:ring-2 focus:ring-blue-500/20 focus:outline-none`}
+                      } focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:opacity-50`}
                     >
                       <option value="">Select Timeline</option>
                       <option value="urgent">ASAP (Rush)</option>
@@ -332,22 +405,33 @@ const ContactSection = () => {
                     onChange={handleFormChange}
                     rows={6}
                     required
+                    disabled={isSubmitting}
                     className={`w-full px-4 py-4 rounded-xl border transition-all duration-200 resize-none ${
                       darkMode 
                         ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-blue-500' 
                         : 'bg-white border-gray-300 placeholder-gray-500 focus:border-blue-500'
-                    } focus:ring-2 focus:ring-blue-500/20 focus:outline-none`}
+                    } focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:opacity-50`}
                     placeholder="Tell me about your project requirements, goals, and any specific technologies you'd like to use..."
                   ></textarea>
                 </div>
 
                 {/* Submit Button */}
                 <button
-                  onClick={handleSubmit}
-                  className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2"
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
-                  <Send className="w-5 h-5" />
-                  <span>Send Message</span>
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      <span>Send Message</span>
+                    </>
+                  )}
                 </button>
 
                 <p className={`text-sm text-center ${
@@ -355,7 +439,7 @@ const ContactSection = () => {
                 }`}>
                   I'll respond to your message within 24 hours. For urgent inquiries, please call directly.
                 </p>
-              </div>
+              </form>
             </div>
           </div>
         </div>

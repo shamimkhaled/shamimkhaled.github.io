@@ -1,7 +1,7 @@
 // src/components/sections/ServicesSection.jsx
 import React, { useState } from 'react';
 import { 
-  DollarSign, Brain, Globe, Code, BarChart3, CheckCircle, 
+  DollarSign, Brain, Globe, Code, CheckCircle, 
   Clock, Zap, TrendingUp, MessageSquare, Users, Star 
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -27,7 +27,7 @@ const ServicesSection = ({ scrollToSection }) => {
       ],
       icon: <Brain className="w-10 h-10" />,
       color: "from-blue-500 to-cyan-500",
-      popular: true,
+      popular: false,
       hasProjectRate: true
     },
     {
@@ -37,10 +37,10 @@ const ServicesSection = ({ scrollToSection }) => {
       hourlyRate: 30,
       projectRate: 2000,
       features: [
-        "Frontend Development (React, Vue.js)",
+        "Frontend Development (React JS)",
         "Backend APIs (Django, FastAPI)",
         "Database Design & Optimization",
-        "Cloud Deployment (AWS, Docker)",
+        "Cloud Deployment (Digital Ocean, Docker)",
         "Real-time Features",
         "Mobile-Responsive Design"
       ],
@@ -59,13 +59,13 @@ const ServicesSection = ({ scrollToSection }) => {
         "REST API Development",
         "Database Architecture",
         "Authentication Systems",
-        "Microservices Design",
+        // "Microservices Design",
         "Performance Optimization",
         "Security Implementation"
       ],
       icon: <Code className="w-10 h-10" />,
       color: "from-purple-500 to-pink-500",
-      popular: false,
+      popular: true,
       hasProjectRate: true
     },
     {

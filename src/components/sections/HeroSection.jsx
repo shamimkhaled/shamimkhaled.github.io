@@ -25,6 +25,7 @@ const HeroSection = ({ scrollToSection }) => {
     }
     
     return () => clearTimeout(timeout);
+    // eslint-disable-next-line
   }, [typewriterText, currentTextIndex]);
 
   return (

@@ -83,7 +83,7 @@ const AboutSection = () => {
           <p className={`text-xl max-w-3xl mx-auto leading-relaxed ${
             darkMode ? 'text-gray-300' : 'text-gray-600'
           }`}>
-            I'm a passionate AI/ML Engineer andPython Developer with 2+ years of experience building intelligent systems and solving complex real-world problems.
+            I'm a passionate Python Developer and AI/ML Engineer with 2+ years of experience building intelligent systems and solving complex real-world problems.
           </p>
         </div>
 
@@ -98,7 +98,7 @@ const AboutSection = () => {
                 darkMode ? 'text-gray-300' : 'text-gray-600'
               }`}>
                   <p>
-                  I am a <strong>Python Developer and AI/ML Engineer</strong> with over <strong>2 years of experience</strong> in building complex AI, ML, and web applications. Skilled at writing clear, concise code that is easy to maintain and troubleshoot. I am well-versed in <strong>Machine Learning</strong>, <strong>Django REST API </strong>, <strong>JavaScript</strong>, and <strong>Software Development</strong>.
+                  I am a <strong>Python Developer and AI/ML Engineer</strong> with over <strong>2 years of experience</strong> in building complex AI/ML, and web applications. Skilled at writing clear, concise code that is easy to maintain and troubleshoot. .
                 </p>
                 <p>
                   My technical expertise spans across <strong>Machine Learning</strong>, <strong>Deep Learning</strong>, and <strong> Web Application Development</strong>. I specialize in building <strong>scalable AI solutions</strong> that drive business value and deliver measurable results.
@@ -154,24 +154,7 @@ const AboutSection = () => {
               </div>
             </div>
             
-            {/* Achievements Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {achievements.map((achievement, index) => (
-                <div key={index} className={`text-center p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 ${
-                  darkMode ? 'bg-gray-700' : 'bg-white'
-                }`}>
-                  <div className={`${achievement.color} mx-auto mb-3 flex justify-center items-center`}>
-                    {achievement.icon}
-                  </div>
-                  <div className={`text-2xl font-bold ${
-                    darkMode ? 'text-white' : 'text-gray-900'
-                  }`}>{achievement.number}</div>
-                  <div className={`text-sm ${
-                    darkMode ? 'text-gray-400' : 'text-gray-600'
-                  }`}>{achievement.label}</div>
-                </div>
-              ))}
-            </div>
+        
 
             {/* Education & Location */}
             <div className={`p-6 rounded-xl ${
@@ -239,7 +222,7 @@ const AboutSection = () => {
             {/* Key Technologies */}
             <div className={`p-6 rounded-xl ${
               darkMode ? 'bg-gray-700/50 border border-gray-600' : 'bg-white shadow-lg'
-            }`}>
+              }`}>
               <h4 className={`text-lg font-semibold mb-4 ${
                 darkMode ? 'text-white' : 'text-gray-900'
               }`}>Key Technologies</h4>
@@ -261,6 +244,31 @@ const AboutSection = () => {
                 ))}
               </div>
             </div>
+
+
+            {/* Achievements Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {achievements.map((achievement, index) => (
+                <div key={index} className={`text-center p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 ${
+                  darkMode ? 'bg-gray-700' : 'bg-white'
+                }`}>
+                  <div className={`${achievement.color} mx-auto mb-3 flex justify-center items-center`}>
+                    {achievement.icon}
+                  </div>
+                  <div className={`text-2xl font-bold ${
+                    darkMode ? 'text-white' : 'text-gray-900'
+                  }`}>{achievement.number}</div>
+                  <div className={`text-sm ${
+                    darkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}>{achievement.label}</div>
+                </div>
+              ))}
+            </div>
+
+
+
+
+
           </div>
         </div>
       </div>
