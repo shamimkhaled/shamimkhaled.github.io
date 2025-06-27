@@ -149,7 +149,7 @@ const TestimonialsSection = () => {
         {/* Stats */}
         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="text-center">
-            <div className="text-4xl font-bold text-blue-600 mb-2">25+</div>
+            <div className="text-4xl font-bold text-blue-600 mb-2">20+</div>
             <div className={darkMode ? 'text-gray-400' : 'text-gray-600'}>Happy Clients</div>
           </div>
           <div className="text-center">

@@ -1,4 +1,4 @@
- // src/components/sections/SkillsSection.jsx
+// src/components/sections/SkillsSection.jsx
 import React from 'react';
 import { Cpu } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -10,36 +10,36 @@ const SkillsSection = () => {
     {
       title: "Programming Languages",
       skills: [
-        { name: "Python", level: 95, icon: "🐍" },
+        { name: "Python", level: 90, icon: "🐍" },
         { name: "JavaScript", level: 85, icon: "⚡" },
-        { name: "SQL", level: 90, icon: "🗄️" },
-        { name: "R", level: 75, icon: "📊" }
+        { name: "SQL", level: 85, icon: "🗄️" },
+        { name: "R", level: 70, icon: "📊" }
       ]
     },
     {
       title: "AI/ML Frameworks",
       skills: [
-        { name: "TensorFlow", level: 90, icon: "🧠" },
-        { name: "PyTorch", level: 88, icon: "🔥" },
-        { name: "Scikit-learn", level: 92, icon: "🔬" },
-        { name: "OpenCV", level: 85, icon: "👁️" }
+        { name: "TensorFlow", level: 85, icon: "🧠" },
+        { name: "PyTorch", level: 80, icon: "🔥" },
+        { name: "Scikit-learn", level: 85, icon: "🔬" },
+        { name: "OpenCV", level: 80, icon: "👁️" }
       ]
     },
     {
       title: "Web Technologies",
       skills: [
-        { name: "Django", level: 90, icon: "🎸" },
-        { name: "FastAPI", level: 85, icon: "⚡" },
-        { name: "React", level: 80, icon: "⚛️" },
-        { name: "Node.js", level: 75, icon: "🟢" }
+        { name: "Django", level: 88, icon: "🎸" },
+        { name: "FastAPI", level: 75, icon: "⚡" },
+        { name: "Flask", level: 75, icon: "🌶️" },
+        { name: "React", level: 77, icon: "⚛️" }
       ]
     },
     {
       title: "Tools & Platforms",
       skills: [
-        { name: "Docker", level: 85, icon: "🐳" },
-        { name: "AWS", level: 80, icon: "☁️" },
-        { name: "Git", level: 95, icon: "📝" },
+        { name: "Docker", level: 80, icon: "🐳" },
+        { name: "Digital Ocean", level: 80, icon: "🌊" },
+        { name: "Git", level: 88, icon: "📝" },
         { name: "MongoDB", level: 85, icon: "🍃" }
       ]
     }

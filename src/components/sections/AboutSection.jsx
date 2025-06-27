@@ -1,6 +1,6 @@
 // src/components/sections/AboutSection.jsx
 import React from 'react';
-import { Users, Award, Code, Coffee, Brain, Database, BookOpen, ExternalLink } from 'lucide-react';
+import { Users, Award, Code, Coffee, Brain, Database, BookOpen, ExternalLink, Building, MapPin } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 
 const AboutSection = () => {
@@ -17,20 +17,44 @@ const AboutSection = () => {
     {
       icon: <Brain className="w-8 h-8" />,
       title: "Machine Learning & AI",
-      description: "Deep Learning, Neural Networks, NLP, Computer Vision, Predictive Modeling",
+      description: "Deep Learning, Neural Networks, NLP, Computer Vision, Langchain, Vector DB, HuggingFace, OpenAI Models",
       color: "from-blue-500 to-cyan-500"
     },
     {
       icon: <Code className="w-8 h-8" />,
       title: "Backend Development",
-      description: "Django, FastAPI, REST APIs, Database Design, Microservices",
+      description: "Django, FastAPI, REST APIs, Database Design, Authentication Systems, Payment Integration",
       color: "from-green-500 to-emerald-500"
     },
     {
       icon: <Database className="w-8 h-8" />,
-      title: "Data Science",
-      description: "Data Analysis, Visualization, Statistical Modeling, Business Intelligence",
+      title: "Full-Stack Development",
+      description: "Inventory Management Systems, Mobile App APIs, Scalable Web Applications",
       color: "from-purple-500 to-pink-500"
+    }
+  ];
+
+  const workExperience = [
+    {
+      company: "Serenus One",
+      role: "Software Engineer",
+      // period: "2024 Sept - Jan 2025",
+      description: "Developing robust Django REST API and FastAPI solutions with user authentication, Google/Discord login integration, payment systems, and TTS systems using Piper TTS and Coqui TTS. Fine-tuning OpenAI GPT-4o models for meditation script generation.",
+      icon: <Building className="w-5 h-5" />
+    },
+    {
+      company: "Enny Sports",
+      role: "Backend API Developer",
+      // period: "2024 - 2025",
+      description: "Developed Django REST API backend for Flutter-based iOS and Android fitness application, currently live on App Store and Play Store, connecting sports enthusiasts and personal trainers.",
+      icon: <Building className="w-5 h-5" />
+    },
+    {
+      company: "Rana Motors",
+      role: "Python Developer",
+      // period: "2022 - 2023",
+      description: "Designed and developed a comprehensive Inventory Management System using Django, strengthening expertise in building robust web applications and managing scalable databases.",
+      icon: <Building className="w-5 h-5" />
     }
   ];
 
@@ -59,11 +83,11 @@ const AboutSection = () => {
           <p className={`text-xl max-w-3xl mx-auto leading-relaxed ${
             darkMode ? 'text-gray-300' : 'text-gray-600'
           }`}>
-            I'm a passionate AI/ML Engineer and Data Scientist with 2+ years of experience building intelligent systems and solving complex real-world problems.
+            I'm a passionate AI/ML Engineer and Data Scientist with 2.9+ years of experience building intelligent systems and solving complex real-world problems.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Content */}
           <div className="space-y-8">
             <div className="space-y-6">
@@ -73,25 +97,70 @@ const AboutSection = () => {
               <div className={`space-y-4 leading-relaxed ${
                 darkMode ? 'text-gray-300' : 'text-gray-600'
               }`}>
-                <p>
-                  I graduated with a BSc in Computer Science and Engineering from North South University, Bangladesh (2018-2022). Since then, I've been dedicated to developing and implementing machine learning and deep learning models.
+                  <p>
+                  I am a <strong>Python Developer and AI/ML Engineer</strong> with over <strong>2 years of experience</strong> in building complex AI, ML, and web applications. Skilled at writing clear, concise code that is easy to maintain and troubleshoot. I am well-versed in <strong>Machine Learning</strong>, <strong>Django REST API </strong>, <strong>JavaScript</strong>, and <strong>Software Development</strong>.
                 </p>
                 <p>
-                  My expertise spans across various domains including natural language processing, computer vision, and web development. I specialize in building scalable AI solutions that drive business value and solve real-world challenges.
+                  My technical expertise spans across <strong>Machine Learning</strong>, <strong>Deep Learning</strong>, and <strong> Web Application Development</strong>. I specialize in building <strong>scalable AI solutions</strong> that drive business value and deliver measurable results.
                 </p>
                 <p>
-                  I believe in continuous learning and staying updated with the latest technological advancements to deliver cutting-edge solutions.
+                  I'm committed to <strong>continuous learning</strong> and staying current with the latest technological advancements to deliver cutting-edge solutions that make a real difference.
                 </p>
+              </div>
+            </div>
+
+            {/* Professional Experience */}
+            <div className="space-y-6">
+              <h3 className={`text-2xl font-bold ${
+                darkMode ? 'text-white' : 'text-gray-900'
+              }`}>Professional Experience</h3>
+              
+              <div className="space-y-4">
+                {workExperience.map((work, index) => (
+                  <div key={index} className={`p-6 rounded-xl border-l-4 border-blue-500 ${
+                    darkMode ? 'bg-gray-700/50' : 'bg-white shadow-md'
+                  }`}>
+                    <div className="flex items-start space-x-3 mb-3">
+                      <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                        {work.icon}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                          <h4 className={`text-lg font-bold ${
+                            darkMode ? 'text-white' : 'text-gray-900'
+                          }`}>{work.company}</h4>
+                          <span className={`text-sm font-medium px-3 py-1 rounded-full ${
+                            darkMode 
+                              ? 'bg-blue-900/30 text-blue-300' 
+                              : 'bg-blue-100 text-blue-800'
+                          }`}>
+                            {work.period}
+                          </span>
+                        </div>
+                        <p className={`text-sm font-medium mb-2 ${
+                          darkMode ? 'text-blue-400' : 'text-blue-600'
+                        }`}>
+                          {work.role}
+                        </p>
+                        <p className={`text-sm leading-relaxed ${
+                          darkMode ? 'text-gray-300' : 'text-gray-600'
+                        }`}>
+                          {work.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
             
             {/* Achievements Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-center items-center text-center">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {achievements.map((achievement, index) => (
                 <div key={index} className={`text-center p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 ${
                   darkMode ? 'bg-gray-700' : 'bg-white'
                 }`}>
-                  <div className={`${achievement.color} mx-auto mb-3 justify-center flex items-center rounded-full shadow-lg`}>
+                  <div className={`${achievement.color} mx-auto mb-3 flex justify-center items-center`}>
                     {achievement.icon}
                   </div>
                   <div className={`text-2xl font-bold ${
@@ -102,6 +171,32 @@ const AboutSection = () => {
                   }`}>{achievement.label}</div>
                 </div>
               ))}
+            </div>
+
+            {/* Education & Location */}
+            <div className={`p-6 rounded-xl ${
+              darkMode ? 'bg-gray-700/50 border border-gray-600' : 'bg-gray-50 border border-gray-200'
+            }`}>
+              <div className="flex items-center space-x-4 mb-4">
+                <Award className="w-6 h-6 text-blue-600" />
+                <h4 className={`text-lg font-semibold ${
+                  darkMode ? 'text-white' : 'text-gray-900'
+                }`}>Education</h4>
+              </div>
+              <p className={`mb-3 ${
+                darkMode ? 'text-gray-300' : 'text-gray-700'
+              }`}>
+                <strong>BSc in Computer Science and Engineering</strong><br />
+                North South University, Bangladesh 
+                {/* (2018-2022) */}
+              </p>
+              
+              <div className="flex items-center space-x-2 text-sm">
+                <MapPin className="w-4 h-4 text-gray-500" />
+                <span className={darkMode ? 'text-gray-400' : 'text-gray-600'}>
+                  Dhaka, Bangladesh
+                </span>
+              </div>
             </div>
 
             <a 
@@ -140,6 +235,32 @@ const AboutSection = () => {
                 </div>
               </div>
             ))}
+
+            {/* Key Technologies */}
+            <div className={`p-6 rounded-xl ${
+              darkMode ? 'bg-gray-700/50 border border-gray-600' : 'bg-white shadow-lg'
+            }`}>
+              <h4 className={`text-lg font-semibold mb-4 ${
+                darkMode ? 'text-white' : 'text-gray-900'
+              }`}>Key Technologies</h4>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  'Python', 'Django', 'REST APIs', 'Deep Learning', 'TensorFlow', 'Keras', 'Langchain', 'Vector DB', 'Open AI Model', 'HuggingFace', 'MySQL',
+                  'PostgreSQL', 'Docker', 'Git', 'JavaScript',
+                ].map((tech, index) => (
+                  <span 
+                    key={index}
+                    className={`px-3 py-1 text-xs rounded-full font-medium ${
+                      darkMode 
+                        ? 'bg-blue-900/50 text-blue-200' 
+                        : 'bg-blue-100 text-blue-800'
+                    }`}
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
