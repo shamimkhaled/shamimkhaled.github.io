@@ -54,7 +54,7 @@ const ServicesSection = ({ scrollToSection }) => {
       title: "Backend Development",
       description: "Robust backend systems, APIs, and microservices architecture with focus on performance, scalability, and security.",
       hourlyRate: 25,
-      projectRate: 1200,
+      projectRate: 1000,
       features: [
         "REST API Development",
         "Database Architecture",
