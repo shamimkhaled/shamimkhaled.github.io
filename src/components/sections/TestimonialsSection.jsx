@@ -7,60 +7,60 @@ const TestimonialsSection = () => {
   const { darkMode } = useTheme();
 
   const testimonials = [
+    // {
+    //   name: "Sarah Johnson",
+    //   role: "CTO, TechInnovate",
+    //   company: "TechInnovate Solutions",
+    //   content: "Shamim delivered an exceptional AI solution that exceeded our expectations. His expertise in machine learning and attention to detail made all the difference. The crop disease detection model achieved 96% accuracy!",
+    //   rating: 5,
+    //   image: "/api/placeholder/80/80",
+    //   project: "AI/ML Development"
+    // },
+    // {
+    //   name: "Michael Chen",
+    //   role: "Product Manager, DataFlow",
+    //   company: "DataFlow Analytics", 
+    //   content: "Working with Shamim was a pleasure. He understood our requirements perfectly and delivered a robust backend system on time. The API performance improved by 40% after optimization.",
+    //   rating: 5,
+    //   image: "/api/placeholder/80/80",
+    //   project: "Backend Development"
+    // },
     {
-      name: "Sarah Johnson",
-      role: "CTO, TechInnovate",
-      company: "TechInnovate Solutions",
-      content: "Shamim delivered an exceptional AI solution that exceeded our expectations. His expertise in machine learning and attention to detail made all the difference. The crop disease detection model achieved 96% accuracy!",
-      rating: 5,
-      image: "/api/placeholder/80/80",
-      project: "AI/ML Development"
-    },
-    {
-      name: "Michael Chen",
-      role: "Product Manager, DataFlow",
-      company: "DataFlow Analytics", 
-      content: "Working with Shamim was a pleasure. He understood our requirements perfectly and delivered a robust backend system on time. The API performance improved by 40% after optimization.",
-      rating: 5,
-      image: "/api/placeholder/80/80",
-      project: "Backend Development"
-    },
-    {
-      name: "Emily Rodriguez",
-      role: "Founder, AgriTech Solutions",
+      name: "Alif",
+      role: "Student",
       company: "GreenGrow Technologies",
-      content: "The crop disease prediction model Shamim built for us has been incredibly accurate and valuable for our farmers. It's saving thousands of dollars in crop losses. Highly recommended!",
+      content: "The crop disease prediction model Shamim built for us has been incredibly accurate and valuable for our university capstone project. Highly recommended!",
       rating: 5,
       image: "/api/placeholder/80/80",
-      project: "AI/ML Development"
+      project: "Transfer Learning Model Development - Capstone Project"
     },
     {
-      name: "David Kumar",
-      role: "Data Scientist, FinanceHub",
-      company: "FinanceHub Analytics",
-      content: "Shamim's data science consulting helped us uncover insights we never knew existed in our data. The predictive models increased our forecasting accuracy by 35%. Exceptional work!",
+      name: "An Aorus",
+      role: "Youtuber",
+      company: "Youtuber",
+      content: "Amazing Work Bro I can't Believe I found your video as your subscribers are not enough to become in search result thanks, I just want to know that how I can search, save, update, and delete specific record in CSV file but you resolved one section if you can help me related to other please do Love from Pakistan..!",
       rating: 5,
-      image: "/api/placeholder/80/80",
-      project: "Data Science"
+      image: "/assets/testimonials/an-aorus.jpg",
+      project: "CSV File Data Manipulation"
     },
     {
-      name: "Lisa Thompson",
-      role: "CEO, StartupXYZ",
-      company: "StartupXYZ",
-      content: "From concept to deployment, Shamim guided us through the entire AI integration process. His web application development skills are top-notch. Our user engagement increased by 60%!",
+      name: "Alex Guemez",
+      role: "Consultor de Marketing",
+      company: "Abagados en Merida",
+      content: "I liked his willingness to help me even when the server was too slow. Thank you so much for your help and I definitively will contact you again if I need more help. Thanks!",
       rating: 5,
-      image: "/api/placeholder/80/80",
-      project: "Web Development"
+      image: "/assets/testimonials/alexguemez.png",
+      project: "Captcha Solver: Bypass reCAPTCHA with Python"
     },
-    {
-      name: "James Wilson",
-      role: "Tech Lead, InnovateNow",
-      company: "InnovateNow Labs",
-      content: "Shamim's backend architecture design was brilliant. The scalable solution he built handles our growing user base seamlessly. Professional, reliable, and technically excellent.",
-      rating: 5,
-      image: "/api/placeholder/80/80",
-      project: "Backend Development"
-    }
+    // {
+    //   name: "Alif",
+    //   role: "Student",
+    //   company: "NSU",
+    //   content: "Shamim's backend architecture design was brilliant. The scalable solution he built handles our growing user base seamlessly. Professional, reliable, and technically excellent.",
+    //   rating: 5,
+    //   image: "/api/placeholder/80/80",
+    //   project: "Transfer Learning Model Development"
+    // }
   ];
 
   return (
