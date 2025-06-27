@@ -27,7 +27,7 @@ const Footer = () => {
             <p className={`mb-6 max-w-md ${
               darkMode ? 'text-gray-400' : 'text-gray-600'
             }`}>
-              AI/ML Engineer & Data Scientist passionate about building intelligent systems and solving real-world challenges with cutting-edge technology.
+              AI/ML Engineer & Python Developer passionate about building intelligent systems and solving real-world challenges with cutting-edge technology.
             </p>
             <div className="flex space-x-4">
               <a 

@@ -38,10 +38,10 @@ const ContactSection = () => {
     },
     {
       icon: <Phone className="w-6 h-6" />,
-      title: "Phone", 
-      value: "+880 123 456 7890",
+      title: "WhatsApp / Telegram", 
+      value: "+880 1903526254",
       description: "Available Mon-Fri, 9AM-6PM",
-      link: "tel:+8801234567890"
+      link: "tel:+8801903526254"
     },
     {
       icon: <MapPin className="w-6 h-6" />,

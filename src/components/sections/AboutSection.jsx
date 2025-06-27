@@ -7,7 +7,7 @@ const AboutSection = () => {
   const { darkMode } = useTheme();
 
   const achievements = [
-    { icon: <Award className="w-8 h-8" />, number: "15+", label: "Achievements", color: "text-yellow-500" },
+    { icon: <Award className="w-8 h-8" />, number: "12+", label: "Achievements", color: "text-yellow-500" },
     { icon: <Code className="w-8 h-8" />, number: "50+", label: "Projects", color: "text-green-500" },
     { icon: <Users className="w-8 h-8" />, number: "20+", label: "Happy Clients", color: "text-blue-500" },
     { icon: <Coffee className="w-8 h-8" />, number: "1000+", label: "Coffee Cups", color: "text-purple-500" }
@@ -83,7 +83,7 @@ const AboutSection = () => {
           <p className={`text-xl max-w-3xl mx-auto leading-relaxed ${
             darkMode ? 'text-gray-300' : 'text-gray-600'
           }`}>
-            I'm a passionate AI/ML Engineer and Data Scientist with 2.9+ years of experience building intelligent systems and solving complex real-world problems.
+            I'm a passionate AI/ML Engineer andPython Developer with 2+ years of experience building intelligent systems and solving complex real-world problems.
           </p>
         </div>
 

@@ -88,7 +88,7 @@ const HeroSection = ({ scrollToSection }) => {
                 <div className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Projects Completed</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-cyan-600">15+</div>
+                <div className="text-3xl font-bold text-cyan-600">12+</div>
                 <div className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Achievements</div>
               </div>
             </div>
