@@ -46,7 +46,7 @@ const ContactSection = () => {
     {
       icon: <MapPin className="w-6 h-6" />,
       title: "Location",
-      value: "Chattogram, Bangladesh",
+      value: "Dhaka, Bangladesh",
       description: "Available for remote work globally"
     },
     {
