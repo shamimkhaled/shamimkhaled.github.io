@@ -2,9 +2,22 @@
 import React from 'react';
 import { Sparkles, Github, Linkedin, Mail, Youtube } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const { darkMode } = useTheme();
+
+  const quickLinks = [
+    { name: 'About', href: '#about', isHash: true },
+    { name: 'Skills', href: '#skills', isHash: true },
+    { name: 'Projects', href: '#projects', isHash: true },
+    { name: 'Products', href: '/products', isHash: false }, // New Products link
+    { name: 'Services', href: '#services', isHash: true }
+  ];
+
+  const handleHashClick = (href) => {
+    document.getElementById(href.substring(1))?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <footer className={`py-16 ${
@@ -85,18 +98,32 @@ const Footer = () => {
               darkMode ? 'text-white' : 'text-gray-900'
             }`}>Quick Links</h4>
             <div className="space-y-3">
-              {['About', 'Skills', 'Projects', 'Services'].map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className={`block transition-colors ${
-                    darkMode 
-                      ? 'text-gray-400 hover:text-blue-400' 
-                      : 'text-gray-600 hover:text-blue-600'
-                  }`}
-                >
-                  {item}
-                </a>
+              {quickLinks.map((link) => (
+                link.isHash ? (
+                  <button
+                    key={link.name}
+                    onClick={() => handleHashClick(link.href)}
+                    className={`block transition-colors text-left ${
+                      darkMode 
+                        ? 'text-gray-400 hover:text-blue-400' 
+                        : 'text-gray-600 hover:text-blue-600'
+                    }`}
+                  >
+                    {link.name}
+                  </button>
+                ) : (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    className={`block transition-colors ${
+                      darkMode 
+                        ? 'text-gray-400 hover:text-blue-400' 
+                        : 'text-gray-600 hover:text-blue-600'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                )
               ))}
             </div>
           </div>
@@ -141,3 +168,4 @@ const Footer = () => {
 };
 
 export default Footer;
+

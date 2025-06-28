@@ -1,8 +1,9 @@
 // src/App.jsx
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import HomePage from './pages/HomePage';
+import ProductsPage from './pages/ProductsPage';
 import './styles/globals.css';
 
 function App() {
@@ -10,7 +11,10 @@ function App() {
     <ThemeProvider>
       <Router>
         <div className="App">
-          <HomePage />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/products" element={<ProductsPage />} />
+          </Routes>
         </div>
       </Router>
     </ThemeProvider>
