@@ -1,5 +1,5 @@
 // src/pages/ProductsPage.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ShoppingCart, ExternalLink, Star, Check, MessageCircle, 
   Code, Bot, Brain, Globe, Database, Zap, Shield,
@@ -9,6 +9,9 @@ import {
 import { useTheme } from '../contexts/ThemeContext';
 import ProductsFooter from '../components/layout/ProductsFooter';
 
+
+
+
 const ProductsPage = () => {
   const { darkMode } = useTheme();
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -16,6 +19,16 @@ const ProductsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [viewMode, setViewMode] = useState('grid');
   const [searchTerm, setSearchTerm] = useState('');
+
+
+// Set page title for products page
+useEffect(() => {
+    document.title = 'Digital Products Store - Shamim Khaled | Premium React Templates & AI Solutions';
+    return () => {
+      // Reset to original title when leaving the page
+      document.title = 'Shamim Khaled - AI/ML Engineer & Python Developer';
+    };
+}, []);
 
   const categories = [
     { id: 'All', label: 'All Products', icon: <Grid3X3 className="w-4 h-4" /> },
@@ -55,7 +68,7 @@ const ProductsPage = () => {
       technologies: ['React', 'Tailwind CSS', 'JavaScript'],
       category: 'React Templates',
       complexity: 'Advanced',
-      deliveryTime: '1 day',
+      deliveryTime: '2-3 days',
       // downloads: 150,
       // rating: 4.9,
       popular: true
@@ -192,7 +205,7 @@ const ProductsPage = () => {
       livePreview: 'https://youtu.be/gEth-PSj86E',
       image: '/assets/products/telebot.png',
       gallery: [
-        // '/assets/projects/automation-bot.png',
+        '/assets/products/telebot.png',
         // '/assets/projects/bot-dashboard.png',
         // '/assets/projects/bot-results.png'
       ],
@@ -212,7 +225,7 @@ const ProductsPage = () => {
 
       category: 'Automation Bots',
       complexity: 'Intermediate',
-      deliveryTime: '2-3 days',
+      deliveryTime: '1 day',
       // downloads: 50,
       // rating: 4.7,
       popular: true
@@ -311,7 +324,7 @@ const ProductsPage = () => {
       title: 'Server Deployment Service',
       description: 'Professional deployment on your server with configuration and optimization.',
       icon: '⚙️',
-      price: '$15/hour',
+      price: '$20/hour',
       included: false
     },
     {
