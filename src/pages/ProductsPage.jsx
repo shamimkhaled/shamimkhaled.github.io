@@ -4,13 +4,10 @@ import {
   ShoppingCart, ExternalLink, Star, Check, MessageCircle, 
   Code, Bot, Brain, Globe, Database, Zap, Shield,
   ChevronLeft, ChevronRight, ArrowRight, Download,
-  Filter, Search, Grid3X3, List, Send
+  Filter, Search, Grid3X3, List, Send, Copy, X
 } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import ProductsFooter from '../components/layout/ProductsFooter';
-
-
-
 
 const ProductsPage = () => {
   const { darkMode } = useTheme();
@@ -19,16 +16,18 @@ const ProductsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [viewMode, setViewMode] = useState('grid');
   const [searchTerm, setSearchTerm] = useState('');
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedPaymentProduct, setSelectedPaymentProduct] = useState(null);
+  const [copiedText, setCopiedText] = useState('');
 
-
-// Set page title for products page
-useEffect(() => {
+  // Set page title for products page
+  useEffect(() => {
     document.title = 'Digital Products Store - Shamim Khaled | Premium React Templates & AI Solutions';
     return () => {
       // Reset to original title when leaving the page
       document.title = 'Shamim Khaled - AI/ML Engineer & Python Developer';
     };
-}, []);
+  }, []);
 
   const categories = [
     { id: 'All', label: 'All Products', icon: <Grid3X3 className="w-4 h-4" /> },
@@ -39,7 +38,7 @@ useEffect(() => {
     { id: 'Databases', label: 'Databases & APIs', icon: <Database className="w-4 h-4" /> }
   ];
 
-    const products = [
+  const products = [
     {
       id: 'techkreativ',
       name: 'TechKreativ React Template',
@@ -69,8 +68,8 @@ useEffect(() => {
       category: 'React Templates',
       complexity: 'Advanced',
       deliveryTime: '2-3 days',
-      // downloads: 150,
-      // rating: 4.9,
+      downloads: 150,
+      rating: 4.9,
       popular: true
     },
     {
@@ -100,21 +99,21 @@ useEffect(() => {
       category: 'React Templates',
       complexity: 'Intermediate',
       deliveryTime: '1 day',
-      // downloads: 120,
-      // rating: 4.8,
+      downloads: 120,
+      rating: 4.8,
       popular: false
     },
     {
       id: 'portfolio',
       name: 'Personal Portfolio Template',
-      price: 25,
+      price: 29,
       originalPrice: 39,
       description: 'Modern personal portfolio template perfect for developers, designers, and freelancers.',
       livePreview: 'https://shamimkhaled.github.io',
       image: '/assets/products/shamim-portfolio.png',
       gallery: [
         '/assets/products/shamim-portfolio-light.png',
-        // '/assets/products/shamim-portfolio-dark.png'
+        '/assets/products/shamim-portfolio-dark.png'
       ],
       features: [
         'Dark/Light Mode Toggle',
@@ -130,8 +129,8 @@ useEffect(() => {
       category: 'React Templates',
       complexity: 'Intermediate',
       deliveryTime: '1 day',
-      // downloads: 200,
-      // rating: 5.0,
+      downloads: 200,
+      rating: 5.0,
       popular: true
     },
     // {
@@ -197,7 +196,7 @@ useEffect(() => {
     //   popular: false
     // },
     {
-      id: 'Telegram Automation Bot',
+      id: 'telegram-automation-bot',
       name: 'Telegram Scraper, Bulk SMS, Member Adder',
       price: 29,
       originalPrice: 50,
@@ -206,8 +205,8 @@ useEffect(() => {
       image: '/assets/products/telebot.png',
       gallery: [
         '/assets/products/telebot.png',
-        // '/assets/projects/bot-dashboard.png',
-        // '/assets/projects/bot-results.png'
+        '/assets/projects/bot-dashboard.png',
+        '/assets/projects/bot-results.png'
       ],
       features: [
         'Smarter Telegram scraping system',
@@ -218,16 +217,14 @@ useEffect(() => {
         'Rotate between multiple accounts to avoid bans',
         'Set max & min delay for adding members and forwarding messages',
         'Bulk forward messages with controlled delays',
-        'Works even when member list is protected by admins',
-    
+        'Works even when member list is protected by admins'
       ],
-      technologies: ['Python', ' Telegram API integration'],  
-
+      technologies: ['Python', 'Telegram API integration'],
       category: 'Automation Bots',
       complexity: 'Intermediate',
       deliveryTime: '1 day',
-      // downloads: 50,
-      // rating: 4.7,
+      downloads: 50,
+      rating: 4.7,
       popular: true
     },
     // {
@@ -310,7 +307,6 @@ useEffect(() => {
       icon: '🛡️',
       recommended: false
     }
-     // eslint-disable-next-line
   ];
 
   const additionalServices = [
@@ -324,7 +320,7 @@ useEffect(() => {
       title: 'Server Deployment Service',
       description: 'Professional deployment on your server with configuration and optimization.',
       icon: '⚙️',
-      price: '$20/hour',
+      price: '$17/hour',
       included: false
     },
     {
@@ -340,7 +336,6 @@ useEffect(() => {
       icon: '💬',
       included: true
     }
-     // eslint-disable-next-line
   ];
 
   // Filter products based on category and search
@@ -369,16 +364,25 @@ useEffect(() => {
   };
 
   const handlePurchase = (product) => {
-    const whatsappMessage = `Hi! I want to purchase "${product.name}" for ${product.price}.
+    setSelectedPaymentProduct(product);
+    setShowPaymentModal(true);
+  };
+
+  const handleCopyWallet = () => {
+    const walletAddress = 'TLE1mh5khdeSvzPbtx95wuzBcuu3RPBNTr';
+    navigator.clipboard.writeText(walletAddress);
+    setCopiedText('Wallet address copied!');
+    setTimeout(() => setCopiedText(''), 3000);
+  };
+
+  const handleWhatsAppPayment = (product) => {
+    const whatsappMessage = `Hi! I want to purchase "${product.name}" for $${product.price}.
 
 🛒 Product: ${product.name}
-💰 Price: ${product.price}
+💰 Price: $${product.price}
 ⏱️ Delivery: ${product.deliveryTime}
 
-Please provide payment instructions for:
-1. USDT TRC20 payment
-2. Source code delivery
-3. Any deployment support if needed
+I'm ready to make the USDT TRC20 payment. Please confirm the wallet address and next steps.
 
 Thank you!`;
     const whatsappUrl = `https://wa.me/8801903526254?text=${encodeURIComponent(whatsappMessage)}`;
@@ -394,7 +398,6 @@ Thank you!`;
       'Databases': <Database className="w-4 h-4" />
     };
 
-     // eslint-disable-next-line
     return categoryMap[category] || <Code className="w-4 h-4" />;
   };
 
@@ -405,7 +408,6 @@ Thank you!`;
       'Advanced': 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
       'Expert': 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
     };
-     // eslint-disable-next-line
     return colors[complexity] || colors['Intermediate'];
   };
 
@@ -441,16 +443,6 @@ Thank you!`;
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              {/* <a 
-                href="/"
-                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                  darkMode 
-                    ? 'text-gray-300 hover:text-white hover:bg-gray-800' 
-                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
-                }`}
-              >
-                ← Back to Portfolio
-              </a> */}
               <div className="flex items-center space-x-2">
                 <a 
                   href="https://wa.me/8801903526254"
@@ -962,6 +954,199 @@ Thank you!`;
           </div>
         </div>
 
+        {/* Payment Modal */}
+        {showPaymentModal && selectedPaymentProduct && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className={`rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto ${
+              darkMode ? 'bg-gray-800' : 'bg-white'
+            }`}>
+              <div className="p-6">
+                {/* Modal Header */}
+                <div className="flex justify-between items-start mb-6">
+                  <div>
+                    <h3 className={`text-2xl font-bold ${
+                      darkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      Complete Your Purchase
+                    </h3>
+                    <p className={`text-sm ${
+                      darkMode ? 'text-gray-400' : 'text-gray-600'
+                    }`}>
+                      {selectedPaymentProduct.name} - ${selectedPaymentProduct.price}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setShowPaymentModal(false)}
+                    className={`text-2xl ${
+                      darkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'
+                    }`}
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+
+                {/* Payment Options */}
+                <div className="space-y-6">
+                  {/* USDT TRC20 - Recommended */}
+                  <div className={`rounded-xl p-6 border-2 border-green-500 ${
+                    darkMode ? 'bg-green-900/20' : 'bg-green-50'
+                  }`}>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-3xl">💰</span>
+                        <div>
+                          <h4 className={`font-bold text-lg ${
+                            darkMode ? 'text-white' : 'text-gray-900'
+                          }`}>
+                            Binance TRC20 (USDT)
+                          </h4>
+                          <span className="inline-block bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                            ⭐ RECOMMENDED
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Wallet Address */}
+                    <div className="mb-4">
+                      <label className={`text-sm font-medium ${
+                        darkMode ? 'text-gray-300' : 'text-gray-700'
+                      }`}>
+                        USDT Wallet Address (TRC20):
+                      </label>
+                      <div className={`p-3 rounded-lg mt-2 font-mono text-sm break-all border-2 border-dashed relative ${
+                        darkMode ? 'bg-gray-700 border-gray-600' : 'bg-gray-100 border-gray-300'
+                      }`}>
+                        TLE1mh5khdeSvzPbtx95wuzBcuu3RPBNTr
+                        <button
+                          onClick={handleCopyWallet}
+                          className="absolute top-2 right-2 p-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition-colors"
+                        >
+                          <Copy className="w-3 h-3" />
+                        </button>
+                      </div>
+                      {copiedText && (
+                        <p className="text-green-600 text-xs mt-1">{copiedText}</p>
+                      )}
+                    </div>
+
+                    {/* Payment Amount */}
+                    <div className={`p-4 rounded-lg mb-4 ${
+                      darkMode ? 'bg-gray-700' : 'bg-white'
+                    }`}>
+                      <div className="flex justify-between items-center">
+                        <span className={`font-medium ${
+                          darkMode ? 'text-gray-300' : 'text-gray-700'
+                        }`}>
+                          Amount to Send:
+                        </span>
+                        <span className="text-2xl font-bold text-green-600">
+                          ${selectedPaymentProduct.price} USDT
+                        </span>
+                      </div>
+                      <div className="text-xs text-yellow-600 mt-2">
+                        ⚠️ Important: Send exact amount in USDT TRC20 network only
+                      </div>
+                    </div>
+
+                    {/* WhatsApp Confirmation */}
+                    <button
+                      onClick={() => handleWhatsAppPayment(selectedPaymentProduct)}
+                      className="w-full bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2"
+                    >
+                      <MessageCircle className="w-5 h-5" />
+                      <span>Send Payment Confirmation via WhatsApp</span>
+                    </button>
+
+                    <div className={`text-xs mt-3 ${
+                      darkMode ? 'text-gray-400' : 'text-gray-600'
+                    }`}>
+                      After payment, send screenshot + product name via WhatsApp for instant delivery
+                    </div>
+                  </div>
+
+                  {/* OR Divider */}
+                  <div className="flex items-center">
+                    <div className={`flex-1 h-px ${
+                      darkMode ? 'bg-gray-700' : 'bg-gray-300'
+                    }`}></div>
+                    <span className={`px-4 text-sm font-medium ${
+                      darkMode ? 'text-gray-400' : 'text-gray-500'
+                    }`}>
+                      OR
+                    </span>
+                    <div className={`flex-1 h-px ${
+                      darkMode ? 'bg-gray-700' : 'bg-gray-300'
+                    }`}></div>
+                  </div>
+
+                  {/* Fiverr Option */}
+                  <div className={`rounded-xl p-6 border ${
+                    darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-200 bg-white'
+                  }`}>
+                    <div className="flex items-center space-x-3 mb-4">
+                      <span className="text-3xl">🛡️</span>
+                      <div>
+                        <h4 className={`font-bold text-lg ${
+                          darkMode ? 'text-white' : 'text-gray-900'
+                        }`}>
+                          Fiverr Marketplace
+                        </h4>
+                        <span className="text-xs text-blue-600">Secure purchase with buyer protection</span>
+                      </div>
+                    </div>
+
+                    <div className={`p-4 rounded-lg mb-4 ${
+                      darkMode ? 'bg-gray-800' : 'bg-gray-50'
+                    }`}>
+                      <p className={`text-sm ${
+                        darkMode ? 'text-gray-300' : 'text-gray-700'
+                      }`}>
+                        Purchase securely through Fiverr with buyer protection and instant delivery
+                      </p>
+                    </div>
+
+                    <a 
+                      href="https://www.fiverr.com/users/iamkhaled94/portfolio"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center space-x-2"
+                    >
+                      <ExternalLink className="w-5 h-5" />
+                      <span>Visit Fiverr Profile</span>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Contact Support */}
+                <div className={`mt-6 p-4 rounded-xl ${
+                  darkMode ? 'bg-blue-900/30' : 'bg-blue-50'
+                }`}>
+                  <h4 className={`font-semibold mb-2 ${
+                    darkMode ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    Need Help?
+                  </h4>
+                  <div className="flex items-center space-x-4 text-sm">
+                    <div className="flex items-center space-x-2">
+                      <MessageCircle className="w-4 h-4 text-green-500" />
+                      <span className={darkMode ? 'text-gray-300' : 'text-gray-600'}>
+                        WhatsApp: +8801903526254
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Send className="w-4 h-4 text-blue-500" />
+                      <span className={darkMode ? 'text-gray-300' : 'text-gray-600'}>
+                        Telegram: @shamimkhaled
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Product Modal */}
         {selectedProduct && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -1141,8 +1326,6 @@ Thank you!`;
       
       <ProductsFooter />
     </div>
-
-   
   );
 };
 

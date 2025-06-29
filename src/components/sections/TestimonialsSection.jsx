@@ -25,15 +25,15 @@ const TestimonialsSection = () => {
     //   image: "/api/placeholder/80/80",
     //   project: "Backend Development"
     // },
-    {
-      name: "Alif",
-      role: "Student",
-      company: "GreenGrow Technologies",
-      content: "The crop disease prediction model Shamim built for us has been incredibly accurate and valuable for our university capstone project. Highly recommended!",
-      rating: 5,
-      image: "/api/placeholder/80/80",
-      project: "Transfer Learning Model Development - Capstone Project"
-    },
+    // {
+    //   // name: "Alif",
+    //   // role: "",
+    //   // company: "University",
+    //   content: "The crop disease prediction model Shamim built for us has been incredibly accurate and valuable for our university capstone project. Highly recommended!",
+    //   rating: 5,
+    //   image: "/api/placeholder/80/80",
+    //   project: "Transfer Learning Model Development - Capstone Project"
+    // },
     {
       name: "An Aorus",
       role: "Youtuber",

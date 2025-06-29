@@ -10,13 +10,91 @@ const ServicesSection = ({ scrollToSection }) => {
   const { darkMode } = useTheme();
   const [pricingType, setPricingType] = useState('hourly'); // 'hourly' or 'project'
 
+  // Function to handle Get Started button click (Email)
+  const handleGetStarted = (serviceName) => {
+    const subject = `Project Inquiry - ${serviceName} `;
+    const body = `Hi Shamim,
+
+I'm interested in your ${serviceName} service and would like to discuss a potential project.
+
+PROJECT DETAILS:
+• Project Type: ${serviceName} service
+• Brief Description: [Please describe your project idea/goals]
+• Timeline: [When do you need this completed?]
+• Budget Range: [What's your estimated budget for this project?]
+
+
+ADDITIONAL INFORMATION (if applicable):
+• Have you worked on similar projects before?
+• Do you have any existing code/systems?
+• Any specific technologies you prefer?
+• Timeline constraints or deadlines?
+
+I'm looking forward to discussing this project with you. Please let me know your availability for a detailed consultation to start the project.
+
+Best regards,
+Shamim Khaled
+WhatsApp: +8801903526254`;
+    const mailtoLink = `mailto:i.amshamim94@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(mailtoLink, '_blank');
+  };
+
+  // Function to handle Book Consultation button click (Email for consulting)
+  const handleBookConsultation = () => {
+    const subject = 'Consultation Booking Request';
+    const body = `Hi Shamim,
+
+I would like to book a consultation session to discuss my project needs.
+
+CONSULTATION DETAILS:
+• Consultation Type: Software/Project Consulting ($15/hr)
+• Preferred Duration: [30 minutes, 1 hour, 2 hours, etc.]
+• Preferred Time: [Your preferred day/time]
+• Time Zone: [Your timezone]
+
+PROJECT OVERVIEW (if applicable):
+• Current Challenge: [What specific problem are you facing?]
+• Project Stage: [Planning, In Progress, Stuck, Review needed]
+• Technologies Involved: [Current tech stack or preferences]
+
+
+CONSULTATION GOALS:
+□ Technical Architecture Review
+□ Technology Stack Consultation  
+□ Project Planning & Strategy
+□ Code Review & Best Practices
+□ Performance Optimization Advice
+□ Team Training & Mentoring
+□ Other: [Please specify]
+
+BACKGROUND:
+• Budget for consultation: [Your budget range]
+• Urgency: [How soon do you need guidance?]
+
+
+Please let me know your available time slots and we can schedule the consultation.
+
+Best regards,
+Shamim Khaled
+WhatsApp: +8801903526254`;
+    const mailtoLink = `mailto:i.amshamim94@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(mailtoLink, '_blank');
+  };
+
+  // Function to handle Discuss Requirements button click (WhatsApp)
+  const handleDiscussRequirements = (serviceName) => {
+    const message = `Hi! I'm interested in your ${serviceName} service and would like to discuss my project requirements.`;
+    const whatsappLink = `https://wa.me/8801903526254?text=${encodeURIComponent(message)}`;
+    window.open(whatsappLink, '_blank');
+  };
+
   const services = [
     {
       id: 'aiml',
       title: "AI/ML Development",
       description: "Custom machine learning models, neural networks, and AI solutions tailored to solve your specific business challenges with cutting-edge technology.",
-      hourlyRate: 35,
-      projectRate: 2000,
+      hourlyRate: 25,
+      projectRate: 1700,
       features: [
         "Custom Model Development",
         "Deep Learning Solutions", 
@@ -34,7 +112,7 @@ const ServicesSection = ({ scrollToSection }) => {
       id: 'webapp',
       title: "Web Application Development",
       description: "Full-stack web applications using modern technologies like React, Django, and cloud platforms for scalable and robust solutions.",
-      hourlyRate: 30,
+      hourlyRate: 25,
       projectRate: 2000,
       features: [
         "Frontend Development (React JS)",
@@ -53,7 +131,7 @@ const ServicesSection = ({ scrollToSection }) => {
       id: 'backend',
       title: "Backend Development",
       description: "Robust backend systems, APIs, and microservices architecture with focus on performance, scalability, and security.",
-      hourlyRate: 25,
+      hourlyRate: 20,
       projectRate: 1000,
       features: [
         "REST API Development",
@@ -72,7 +150,7 @@ const ServicesSection = ({ scrollToSection }) => {
       id: 'consulting',
       title: "Software/Project Consulting",
       description: "Expert consultation for software architecture, project planning, technology decisions, and strategic technical guidance for your business.",
-      hourlyRate: 20,
+      hourlyRate: 15,
       projectRate: null,
       features: [
         "Technical Architecture Review",
@@ -299,7 +377,7 @@ const ServicesSection = ({ scrollToSection }) => {
               {/* CTA Buttons */}
               <div className="space-y-3">
                 <button
-                  onClick={() => scrollToSection('contact')}
+                  onClick={() => service.hourlyOnly ? handleBookConsultation() : handleGetStarted(service.title)}
                   className={`w-full px-6 py-4 rounded-2xl font-semibold transition-all duration-300 hover:scale-105 ${
                     service.popular
                       ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg hover:shadow-xl'
@@ -311,7 +389,7 @@ const ServicesSection = ({ scrollToSection }) => {
                   {service.hourlyOnly ? 'Book Consultation' : 'Get Started'}
                 </button>
                 <button
-                  onClick={() => scrollToSection('contact')}
+                  onClick={() => handleDiscussRequirements(service.title)}
                   className={`w-full px-6 py-3 border-2 rounded-2xl font-medium transition-all duration-300 ${
                     darkMode 
                       ? 'border-gray-600 text-gray-300 hover:border-blue-400 hover:text-blue-400' 
