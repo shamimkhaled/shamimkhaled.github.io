@@ -183,7 +183,7 @@ const AboutSection = () => {
             </div>
 
             <a 
-              href="https://drive.google.com/file/d/1WXzWg8jzNjGAccm7xCeYYK6ynbnGzCBY/view?usp=sharing"
+              href="https://drive.google.com/file/d/1L9COYGeo4UQxHUz4aFFMZkSkqqqXV0Qq/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300"
