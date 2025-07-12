@@ -15,7 +15,7 @@ const ProjectsSection = () => {
       description: "Developed a comprehensive backend API for an e-commerce platform using Django Rest Framework, featuring authentication, product management, cart functionality, and order handling with advanced security measures.",
       technologies: ["Django", "DRF", "PostgreSQL", "JWT", "Redis", "Celery"],
       github: "https://github.com/shamimkhaled/ecommerz-backend-api",
-      liveUrl: null,
+      liveUrl: "https://ecommerz-backend-api-v1.vercel.app/",
       image: "/assets/projects/proj_0.png",
       featured: true,
       category: "Backend"
