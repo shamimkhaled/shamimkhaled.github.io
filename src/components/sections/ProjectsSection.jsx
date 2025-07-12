@@ -25,8 +25,8 @@ const ProjectsSection = () => {
       description: "Built an intelligent web application for crop disease prediction using Transfer Learning models like InceptionV3 and MobileNetV2, achieving 94% accuracy in disease detection.",
       technologies: ["Django", "TensorFlow", "InceptionV3", "MobileNetV2", "OpenCV"],
       github: "https://github.com/shamimkhaled/crop-disease-image-classification-web-app",
-      liveUrl: null,
-      image: "/assets/projects/proj_4.png",
+      liveUrl: "https://youtu.be/2RAJUHiOKLc",
+      image: "/assets/projects/proj_5.png",
       featured: true,
       category: "AI/ML"
     },
@@ -35,7 +35,7 @@ const ProjectsSection = () => {
       description: "Created an advanced chatbot capable of analyzing PDF documents using OpenAI's language models and VectorDB for efficient data extraction and conversational AI capabilities.",
       technologies: ["OpenAI", "Langchain", "VectorDB", "Streamlit", "FAISS"],
       github: "https://github.com/shamimkhaled/LLM-QnA-Chatbot-App",
-      liveUrl: null,
+      liveUrl: "https://youtu.be/l1udKyDJUSI",
       image: "/assets/projects/proj_000.png",
       featured: true,
       category: "AI/ML"
@@ -86,7 +86,7 @@ const ProjectsSection = () => {
       technologies: ["Python", "LSTM", "ARIMA", "Prophet", "GRU", "Pandas"],
       github: "https://github.com/shamimkhaled/Machine-Learning",
       liveUrl: null,
-      image: "/assets/projects/proj_2.png",
+      image: "/assets/projects/proj_6.png",
       featured: false,
       category: "AI/ML"
     },
@@ -95,18 +95,42 @@ const ProjectsSection = () => {
       description: "Built an intelligent book recommendation system using collaborative filtering with KNN, LightFM, and Cosine Similarity algorithms, deployed as a Streamlit application.",
       technologies: ["Python", "KNN", "LightFM", "Streamlit", "Scikit-learn"],
       github: "https://github.com/shamimkhaled/books-recommender-system-streamlit-application",
-      liveUrl: null,
-      image: "/assets/projects/proj_00.png",
+      liveUrl: "https://youtu.be/QnThEjQNvYQ",
+      image: "/assets/projects/proj_8.png",
       featured: false,
       category: "AI/ML"
     },
+    {
+      title: "Gemini Pro ATS Resume Analyzer",
+      description: "A Streamlit application that leverages Google's Gemini Pro Vision model to analyze resumes against job descriptions. Acts as an AI-powered Application Tracking System (ATS) offering tailored feedback, skill improvement suggestions, and match percentage evaluation.",
+      technologies: ["Google Gemini Pro", "Streamlit", "Langchain", "PDF", "AI Evaluation"],
+      github: "https://github.com/shamimkhaled/GeminiProAIModel-ATS-Resume-Expert",
+      liveUrl: "https://youtu.be/gCj_4OlbTU8",
+      image: "/assets/projects/proj_10.png",
+      featured: true,
+      category: "AI/ML"
+    },
+
+    {
+      title: "Data Extraction with LLM",
+      description: "A Streamlit application designed to extract structured data from URLs using Langchain and the OpenAI API. Users can input a URL, and the app scrapes content and generates clean JSON-formatted data using an LLM.",
+      technologies: ["OpenAI", "Langchain", "Streamlit", "Web Scraping", "JSON"],
+      github: "https://github.com/shamimkhaled/llm-with-web-scraping",
+      liveUrl: null,
+      image: "/assets/projects/proj_11.png",
+      featured: false,
+      category: "AI/ML"
+    },
+
+
+
     {
       title: "Emotion Speech Recognition with LSTM",
       description: "Developed an LSTM-based deep learning model for recognizing emotions in speech using advanced NLP techniques and audio signal processing.",
       technologies: ["Python", "LSTM", "NLP", "Librosa", "TensorFlow"],
       github: "https://github.com/shamimkhaled/emotion-speech-recognition-with-audioclassification-",
       liveUrl: null,
-      image: "/assets/projects/proj_0.png",
+      image: "/assets/projects/proj_9.png",
       featured: false,
       category: "AI/ML"
     }
