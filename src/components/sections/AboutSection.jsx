@@ -44,14 +44,14 @@ const AboutSection = () => {
     },
     {
       company: "Enny Sports",
-      role: "Backend API Developer",
+      role: "Tech Lead - Backend (Python)",
       // period: "2024 - 2025",
       description: "Developed Django REST API backend for Flutter-based iOS and Android fitness application, currently live on App Store and Play Store, connecting sports enthusiasts and personal trainers.",
       icon: <Building className="w-5 h-5" />
     },
     {
       company: "Rana Motors",
-      role: "Python Developer",
+      role: "Jr Software Engineer",
       // period: "2022 - 2023",
       description: "Designed and developed a comprehensive Inventory Management System using Django, strengthening expertise in building robust web applications and managing scalable databases.",
       icon: <Building className="w-5 h-5" />
