@@ -31,6 +31,17 @@ const ProjectsSection = () => {
       category: "AI/ML"
     },
     {
+      title: "AI-Powered Q&A Web App with Django, React & LangChain",
+      description: "A full-stack AI Q&A web application that lets users upload documents and ask natural language questions using Retrieval-Augmented Generation (RAG) with OpenAI GPT-4, LangChain, ChromaDB, and Django REST Framework.",
+      technologies: ["Django REST Framework", "React", "Tailwind CSS", "LangChain", "OpenAI GPT-4", "ChromaDB", "PostgreSQL", "Docker"],
+      github: "https://github.com/shamimkhaled/qna-ai-web-app",
+      liveUrl: "https://youtu.be/wtT7K_BTgLI",
+      image: "/assets/projects/proj_099.png",
+      featured: true,
+      category: "AI/ML"
+    },
+
+    {
       title: "LLM Q&A Chatbot with OpenAI",
       description: "Created an advanced chatbot capable of analyzing PDF documents using OpenAI's language models and VectorDB for efficient data extraction and conversational AI capabilities.",
       technologies: ["OpenAI", "Langchain", "VectorDB", "Streamlit", "FAISS"],
