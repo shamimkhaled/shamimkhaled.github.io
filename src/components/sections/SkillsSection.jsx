@@ -1,116 +1,94 @@
-// src/components/sections/SkillsSection.jsx
-import React from 'react';
-import { Cpu } from 'lucide-react';
-import { useTheme } from '../../contexts/ThemeContext';
+import React, { useState } from 'react';
+import { getDesignSkills } from '../../utils/designData';
+import { usePortfolioData } from '../../contexts/PortfolioContext';
+import Reveal from '../ui/Reveal';
+import { useInView } from '../../hooks/useInView';
 
-const SkillsSection = () => {
-  const { darkMode } = useTheme();
+const CAT_COLORS = { 'ML/AI': '#00d4ff', Backend: '#39ff14', Database: '#ff6b35', DevOps: '#a855f7', Frontend: '#00d4ff' };
+const getColor = (cat) => CAT_COLORS[cat] || '#00d4ff';
 
-  const skillCategories = [
-    {
-      title: "Programming Languages",
-      skills: [
-        { name: "Python", level: 90, icon: "🐍" },
-        { name: "JavaScript", level: 85, icon: "⚡" },
-        { name: "SQL", level: 85, icon: "🗄️" },
-        { name: "R", level: 70, icon: "📊" }
-      ]
-    },
-    {
-      title: "AI/ML Frameworks",
-      skills: [
-        { name: "TensorFlow", level: 85, icon: "🧠" },
-        { name: "PyTorch", level: 80, icon: "🔥" },
-        { name: "Scikit-learn", level: 85, icon: "🔬" },
-        { name: "OpenCV", level: 80, icon: "👁️" }
-      ]
-    },
-    {
-      title: "Web Technologies",
-      skills: [
-        { name: "Django", level: 88, icon: "🎸" },
-        { name: "FastAPI", level: 75, icon: "⚡" },
-        { name: "Flask", level: 75, icon: "🌶️" },
-        { name: "React", level: 77, icon: "⚛️" }
-      ]
-    },
-    {
-      title: "Tools & Platforms",
-      skills: [
-        { name: "Docker", level: 80, icon: "🐳" },
-        { name: "Digital Ocean", level: 80, icon: "🌊" },
-        { name: "Git", level: 88, icon: "📝" },
-        { name: "MongoDB", level: 85, icon: "🍃" }
-      ]
-    }
-  ];
+export default function SkillsSection() {
+  const { skills } = usePortfolioData();
+  const designSkills = getDesignSkills(skills);
+  const [filter, setFilter] = useState('All');
+  const [ref, vis] = useInView(0.2);
+  const cats = ['All', ...new Set(designSkills.map((s) => s.category || s.cat))];
+  const visibleCats = cats.filter((c) => c !== 'All' && (filter === 'All' || filter === c));
 
   return (
-    <section id="skills" className="py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-20">
-          <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium mb-4 ${
-            darkMode 
-              ? 'bg-blue-900/30 text-blue-300 border border-blue-800' 
-              : 'bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800'
-          }`}>
-            <Cpu className="w-4 h-4 mr-2" />
-            Technical Skills
-          </div>
-          <h2 className={`text-5xl font-bold mb-6 bg-gradient-to-r bg-clip-text text-transparent ${
-            darkMode 
-              ? 'from-white to-gray-300' 
-              : 'from-gray-900 to-gray-600'
-          }`}>
-            Technology Stack
-          </h2>
-          <p className={`text-xl ${
-            darkMode ? 'text-gray-300' : 'text-gray-600'
-          }`}>
-            Proficient in cutting-edge technologies and frameworks
-          </p>
+    <section className="section" id="skills" style={{ background: 'var(--bg2)' }}>
+      <div className="container">
+        <Reveal>
+          <div className="lbl">Stack</div>
+        </Reveal>
+        <Reveal delay={0.05}>
+          <h2 className="sec-title" style={{ marginBottom: '28px' }}>Skills & Expertise</h2>
+        </Reveal>
+        <div ref={ref} style={{ display: 'flex', gap: '7px', flexWrap: 'wrap', marginBottom: '28px' }}>
+          {cats.map((c) => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => setFilter(c)}
+              className="btn"
+              style={{
+                padding: '7px 14px',
+                fontSize: '11px',
+                fontFamily: 'var(--fm)',
+                background: filter === c ? '#00d4ff' : 'var(--glass)',
+                color: filter === c ? '#000' : 'var(--txt2)',
+                border: filter === c ? 'none' : '1px solid var(--gb)',
+              }}
+            >
+              {c}
+            </button>
+          ))}
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {skillCategories.map((category, categoryIndex) => (
-            <div key={categoryIndex} className="space-y-6">
-              <h3 className={`text-2xl font-bold ${
-                darkMode ? 'text-white' : 'text-gray-900'
-              }`}>{category.title}</h3>
-              <div className="space-y-6">
-                {category.skills.map((skill, skillIndex) => (
-                  <div key={skillIndex} className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <span className="text-2xl">{skill.icon}</span>
-                        <span className={`font-semibold ${
-                          darkMode ? 'text-white' : 'text-gray-900'
-                        }`}>{skill.name}</span>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(270px,1fr))', gap: '15px' }}>
+          {visibleCats.map((cat, ci) => (
+            <Reveal key={cat} delay={ci * 0.06}>
+              <div className="card" style={{ padding: '18px', borderLeft: `2px solid ${getColor(cat)}` }}>
+                <div
+                  style={{
+                    fontFamily: 'var(--fm)',
+                    fontSize: '11px',
+                    fontWeight: '600',
+                    textTransform: 'uppercase',
+                    letterSpacing: '2px',
+                    color: getColor(cat),
+                    marginBottom: '12px',
+                  }}
+                >
+                  {cat}
+                </div>
+                {designSkills
+                  .filter((s) => (s.category || s.cat) === cat)
+                  .map((sk, i) => (
+                    <div key={sk.id} className="skillrow">
+                      <span style={{ fontFamily: 'var(--fm)', fontSize: '12px', width: '108px', flexShrink: 0, color: 'var(--txt2)' }}>
+                        {sk.icon} {sk.name}
+                      </span>
+                      <div style={{ flex: 1, height: '3px', background: 'var(--glass)', borderRadius: '3px', overflow: 'hidden' }}>
+                        <div
+                          style={{
+                            height: '100%',
+                            borderRadius: '3px',
+                            background: `linear-gradient(90deg,${getColor(cat)},#39ff14)`,
+                            width: vis ? `${sk.level || sk.pct || 80}%` : '0%',
+                            transition: `width 1.2s ease ${i * 0.07}s`,
+                          }}
+                        />
                       </div>
-                      <span className={`text-sm font-medium ${
-                        darkMode ? 'text-gray-400' : 'text-gray-600'
-                      }`}>{skill.level}%</span>
+                      <span style={{ fontFamily: 'var(--fm)', fontSize: '11px', color: 'var(--txt3)', width: '30px', textAlign: 'right' }}>
+                        {sk.level || sk.pct || 80}%
+                      </span>
                     </div>
-                    <div className="relative">
-                      <div className={`w-full h-3 rounded-full ${
-                        darkMode ? 'bg-gray-700' : 'bg-gray-200'
-                      }`}>
-                        <div 
-                          className="h-3 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-1000 ease-out"
-                          style={{ width: `${skill.level}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                  ))}
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
     </section>
   );
-};
-
-export default SkillsSection;
+}

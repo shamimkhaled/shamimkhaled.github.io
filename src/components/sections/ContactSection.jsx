@@ -1,451 +1,228 @@
-// src/components/sections/ContactSection.jsx
 import React, { useState } from 'react';
-import { Send, Mail, Phone, MapPin, Clock, Github, Linkedin, Youtube, CheckCircle, AlertCircle } from 'lucide-react';
-import { useTheme } from '../../contexts/ThemeContext';
+import { Toaster, toast } from 'react-hot-toast';
+import { getDesignProfile } from '../../utils/designData';
+import { usePortfolioData } from '../../contexts/PortfolioContext';
+import Reveal from '../ui/Reveal';
 
-const ContactSection = () => {
-  const { darkMode } = useTheme();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    budget: '',
-    timeline: '',
-    message: ''
-  });
+export default function ContactSection() {
+  const { profile, freelanceSettings, contactSettings } = usePortfolioData();
+  const designProfile = getDesignProfile(profile, freelanceSettings);
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '', honeypot: '' });
+  const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+  if (!contactSettings?.formEnabled) return null;
 
-  const handleFormChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    
-    setIsSubmitting(true);
-    // Email notification logic would go here
-    alert('Message sent successfully! I\'ll get back to you within 24 hours.');
-    setSubmitStatus(null);
-
+    if (form.honeypot) return;
+    setSending(true);
     try {
-      // Initialize EmailJS (you can also do this in your main app file)
-      const emailjs = (await import('emailjs-com')).default;
-      
-      // EmailJS configuration
-      const serviceID = 'service_0zajjqr';
-      const templateID = 'template_17h7muw';
-      const publicKey = 'KhzHXlrm1yBH8il8j';
-
-      // Prepare template parameters matching your EmailJS template
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        subject: formData.subject,
-        budget: formData.budget || 'Not specified',
-        timeline: formData.timeline || 'Not specified',
-        message: formData.message,
-        to_email: 'i.amshamim94@gmail.com' // Your email
-      };
-
-      // Send email
-      const response = await emailjs.send(
-        serviceID,
-        templateID,
-        templateParams,
-        publicKey
+      const { default: emailjs } = await import('@emailjs/browser');
+      await emailjs.send(
+        process.env.REACT_APP_EMAILJS_SERVICE_ID,
+        process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: form.name,
+          from_email: form.email,
+          subject: form.subject,
+          message: form.message,
+          to_email: contactSettings.email || designProfile.email,
+        },
+        process.env.REACT_APP_EMAILJS_PUBLIC_KEY
       );
-
-      if (response.status === 200) {
-        setSubmitStatus('success');
-        setFormData({ name: '', email: '', subject: '', budget: '', timeline: '', message: '' });
-      } else {
-        throw new Error('Failed to send email');
-      }
-    } catch (error) {
-      console.error('EmailJS Error:', error);
-      setSubmitStatus('error');
+      toast.success('Message sent! I\'ll respond within 24 hours.');
+      setSent(true);
+      setForm({ name: '', email: '', subject: '', message: '', honeypot: '' });
+    } catch {
+      toast.error('Failed to send. Please email me directly.');
     } finally {
-      setIsSubmitting(false);
+      setSending(false);
     }
   };
 
-  const contactInfo = [
-    {
-      icon: <Mail className="w-6 h-6" />,
-      title: "Email",
-      value: "i.amshamim94@gmail.com",
-      description: "I'll respond within 24 hours",
-      link: "mailto:i.amshamim94@gmail.com"
-    },
-    {
-      icon: <Phone className="w-6 h-6" />,
-      title: "WhatsApp / Telegram", 
-      value: "+880 1903526254",
-      description: "Available Mon-Fri, 9AM-6PM",
-      link: "tel:+8801903526254"
-    },
-    {
-      icon: <MapPin className="w-6 h-6" />,
-      title: "Location",
-      value: "Dhaka, Bangladesh",
-      description: "Available for remote work globally"
-    },
-    {
-      icon: <Clock className="w-6 h-6" />,
-      title: "Response Time",
-      value: "< 24 hours", 
-      description: "Quick turnaround guaranteed"
-    }
-  ];
+  const hrRate = designProfile.hourlyRate?.includes('/') ? designProfile.hourlyRate : `${designProfile.hourlyRate}/hr`;
+  const social = profile?.social || {};
 
   return (
-    <section id="contact" className="py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-20">
-          <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium mb-4 ${
-            darkMode 
-              ? 'bg-blue-900/30 text-blue-300 border border-blue-800' 
-              : 'bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800'
-          }`}>
-            <Send className="w-4 h-4 mr-2" />
-            Get In Touch
-          </div>
-          <h2 className={`text-5xl font-bold mb-6 bg-gradient-to-r bg-clip-text text-transparent ${
-            darkMode 
-              ? 'from-white to-gray-300' 
-              : 'from-gray-900 to-gray-600'
-          }`}>
-            Let's Start Something Great
-          </h2>
-          <p className={`text-xl ${
-            darkMode ? 'text-gray-300' : 'text-gray-600'
-          }`}>
-            Ready to transform your ideas into reality? Let's discuss your project!
+    <section className="section contact-section" id="contact">
+      <Toaster position="top-center" toastOptions={{ duration: 4000 }} />
+      <div className="container">
+        <Reveal>
+          <div className="lbl">Contact</div>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <h2 className="sec-title">{contactSettings?.heading || 'Get In Touch'}</h2>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <p className="sec-sub" style={{ marginBottom: '24px' }}>
+            {contactSettings?.subheading || 'Ready to start your project? Send a message or book a free 30-minute consultation.'}
           </p>
-        </div>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <div className="divider" />
+        </Reveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Contact Info */}
-          <div className="lg:col-span-1 space-y-8">
-            <div>
-              <h3 className={`text-2xl font-bold mb-6 ${
-                darkMode ? 'text-white' : 'text-gray-900'
-              }`}>Let's Connect</h3>
-              <p className={`leading-relaxed mb-8 ${
-                darkMode ? 'text-gray-300' : 'text-gray-600'
-              }`}>
-                I'm always excited to work on new projects and help businesses leverage the power of AI and modern technology. 
-                Let's discuss how we can bring your vision to life.
+        <div className="contact-grid">
+          <Reveal dir="left">
+            <div className="contact-info">
+              <h3 className="contact-info-title">Ready to start a project?</h3>
+              <p className="contact-info-desc">
+                {contactSettings?.availabilityMessage || designProfile.consultationText}. I typically respond within 24 hours.
               </p>
-            </div>
 
-            {/* Contact Cards */}
-            <div className="space-y-6">
-              {contactInfo.map((info, index) => (
-                <div key={index} className={`p-6 rounded-2xl hover:shadow-lg transition-all duration-300 ${
-                  darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-gray-50'
-                }`}>
-                  <div className="flex items-start space-x-4">
-                    <div className="p-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl">
-                      {info.icon}
-                    </div>
-                    <div>
-                      <h4 className={`font-semibold mb-1 ${
-                        darkMode ? 'text-white' : 'text-gray-900'
-                      }`}>{info.title}</h4>
-                      {info.link ? (
-                        <a 
-                          href={info.link}
-                          className={`text-lg font-medium mb-1 block ${
-                            darkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'
-                          } transition-colors`}
-                        >
-                          {info.value}
-                        </a>
-                      ) : (
-                        <div className={`text-lg font-medium mb-1 ${
-                          darkMode ? 'text-blue-400' : 'text-blue-600'
-                        }`}>{info.value}</div>
-                      )}
-                      <p className={`text-sm ${
-                        darkMode ? 'text-gray-400' : 'text-gray-600'
-                      }`}>{info.description}</p>
-                    </div>
+              {/* Hourly rate highlight */}
+              {designProfile.availability && (
+                <div className="contact-rate-card card">
+                  <div className="contact-rate-header">
+                    <span className="availability-pulse" />
+                    <span className="contact-rate-label">{designProfile.availabilityText}</span>
                   </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Social Links */}
-            <div>
-              <h4 className={`font-semibold mb-4 ${
-                darkMode ? 'text-white' : 'text-gray-900'
-              }`}>Follow Me</h4>
-              <div className="flex space-x-4">
-                <a 
-                  href="https://github.com/shamimkhaled" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className={`p-3 rounded-xl transition-all duration-200 hover:scale-110 ${
-                    darkMode 
-                      ? 'bg-gray-800 border border-gray-700 text-gray-300 hover:text-blue-400' 
-                      : 'bg-gray-100 text-gray-600 hover:text-blue-600'
-                  }`}
-                >
-                  <Github className="w-6 h-6" />
-                </a>
-                <a 
-                  href="https://www.linkedin.com/in/shamim-khaled/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className={`p-3 rounded-xl transition-all duration-200 hover:scale-110 ${
-                    darkMode 
-                      ? 'bg-gray-800 border border-gray-700 text-gray-300 hover:text-blue-400' 
-                      : 'bg-gray-100 text-gray-600 hover:text-blue-600'
-                  }`}
-                >
-                  <Linkedin className="w-6 h-6" />
-                </a>
-                <a 
-                  href="https://www.youtube.com/@spikegrowth" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className={`p-3 rounded-xl transition-all duration-200 hover:scale-110 ${
-                    darkMode 
-                      ? 'bg-gray-800 border border-gray-700 text-gray-300 hover:text-red-400' 
-                      : 'bg-gray-100 text-gray-600 hover:text-red-600'
-                  }`}
-                >
-                  <Youtube className="w-6 h-6" />
-                </a>
-                <a 
-                  href="mailto:i.amshamim94@gmail.com"
-                  className={`p-3 rounded-xl transition-all duration-200 hover:scale-110 ${
-                    darkMode 
-                      ? 'bg-gray-800 border border-gray-700 text-gray-300 hover:text-blue-400' 
-                      : 'bg-gray-100 text-gray-600 hover:text-blue-600'
-                  }`}
-                >
-                  <Mail className="w-6 h-6" />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Contact Form */}
-          <div className="lg:col-span-2">
-            <div className={`p-8 rounded-3xl shadow-xl ${
-              darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'
-            }`}>
-              <h3 className={`text-2xl font-bold mb-8 ${
-                darkMode ? 'text-white' : 'text-gray-900'
-              }`}>Send Me a Message</h3>
-              
-              {/* Success/Error Messages */}
-              {submitStatus && (
-                <div className={`mb-6 p-4 rounded-xl flex items-center space-x-3 ${
-                  submitStatus === 'success' 
-                    ? darkMode ? 'bg-green-900/30 border border-green-800 text-green-300' : 'bg-green-100 border border-green-200 text-green-800'
-                    : darkMode ? 'bg-red-900/30 border border-red-800 text-red-300' : 'bg-red-100 border border-red-200 text-red-800'
-                }`}>
-                  {submitStatus === 'success' ? (
-                    <>
-                      <CheckCircle className="w-5 h-5" />
-                      <span>Message sent successfully! I'll get back to you within 24 hours.</span>
-                    </>
-                  ) : (
-                    <>
-                      <AlertCircle className="w-5 h-5" />
-                      <span>Failed to send message. Please try again or contact me directly at i.amshamim94@gmail.com</span>
-                    </>
-                  )}
+                  <div className="contact-rate-value">{hrRate}</div>
+                  <p className="contact-rate-note">{designProfile.consultationText}</p>
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Name & Email Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${
-                      darkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Full Name *
-                    </label>
+              <div className="contact-details">
+                <a href={`mailto:${designProfile.email}`} className="contact-detail-item">
+                  <span className="contact-detail-icon">📧</span>
+                  <span className="contact-detail-label">Email</span>
+                  <span className="contact-detail-value">{designProfile.email}</span>
+                </a>
+                <div className="contact-detail-item">
+                  <span className="contact-detail-icon">📍</span>
+                  <span className="contact-detail-label">Location</span>
+                  <span className="contact-detail-value">{designProfile.location}</span>
+                </div>
+                <div className="contact-detail-item">
+                  <span className="contact-detail-icon">🕐</span>
+                  <span className="contact-detail-label">Availability</span>
+                  <span className="contact-detail-value">{designProfile.timezone} · {designProfile.responseTime}</span>
+                </div>
+              </div>
+
+              {(social.whatsapp || social.telegram) && (
+                <div className="contact-quick-actions">
+                  {social.whatsapp && (
+                    <a href={social.whatsapp} target="_blank" rel="noreferrer" className="btn btn-secondary contact-quick-btn">
+                      WhatsApp
+                    </a>
+                  )}
+                  {social.telegram && (
+                    <a href={social.telegram} target="_blank" rel="noreferrer" className="btn btn-ghost contact-quick-btn">
+                      Telegram
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.15}>
+            {sent ? (
+              <div className="card contact-success">
+                <div className="contact-success-icon">✅</div>
+                <h3 className="contact-success-title">Message Sent!</h3>
+                <p className="contact-success-desc">
+                  I&apos;ll get back to you within {designProfile.responseTime.toLowerCase()}.
+                </p>
+                <button type="button" onClick={() => setSent(false)} className="btn btn-primary">
+                  Send Another Message
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={submit} className="contact-form">
+                <div className="hidden" aria-hidden="true">
+                  <input type="text" name="honeypot" value={form.honeypot} onChange={(e) => setForm((f) => ({ ...f, honeypot: e.target.value }))} tabIndex={-1} autoComplete="off" />
+                </div>
+                <div className="contact-form-row">
+                  <div className="contact-form-field">
+                    <label>Your Name *</label>
                     <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleFormChange}
                       required
-                      disabled={isSubmitting}
-                      className={`w-full px-4 py-4 rounded-xl border transition-all duration-200 ${
-                        darkMode 
-                          ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-blue-500' 
-                          : 'bg-white border-gray-300 placeholder-gray-500 focus:border-blue-500'
-                      } focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:opacity-50`}
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
                       placeholder="John Doe"
                     />
                   </div>
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${
-                      darkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Email Address *
-                    </label>
+                  <div className="contact-form-field">
+                    <label>Email Address *</label>
                     <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleFormChange}
                       required
-                      disabled={isSubmitting}
-                      className={`w-full px-4 py-4 rounded-xl border transition-all duration-200 ${
-                        darkMode 
-                          ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-blue-500' 
-                          : 'bg-white border-gray-300 placeholder-gray-500 focus:border-blue-500'
-                      } focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:opacity-50`}
+                      type="email"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
                       placeholder="john@example.com"
                     />
                   </div>
                 </div>
-
-                {/* Subject */}
-                <div>
-                  <label className={`block text-sm font-medium mb-2 ${
-                    darkMode ? 'text-gray-300' : 'text-gray-700'
-                  }`}>
-                    Subject *
-                  </label>
+                <div className="contact-form-field">
+                  <label>Subject *</label>
                   <input
-                    type="text"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleFormChange}
                     required
-                    disabled={isSubmitting}
-                    className={`w-full px-4 py-4 rounded-xl border transition-all duration-200 ${
-                      darkMode 
-                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-blue-500' 
-                        : 'bg-white border-gray-300 placeholder-gray-500 focus:border-blue-500'
-                    } focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:opacity-50`}
-                    placeholder="AI/ML Development Project"
+                    value={form.subject}
+                    onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                    placeholder="Project inquiry, Collaboration, etc."
                   />
                 </div>
-
-                {/* Budget & Timeline Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${
-                      darkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Project Budget
-                    </label>
-                    <select
-                      name="budget"
-                      value={formData.budget}
-                      onChange={handleFormChange}
-                      disabled={isSubmitting}
-                      className={`w-full px-4 py-4 rounded-xl border transition-all duration-200 ${
-                        darkMode 
-                          ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500' 
-                          : 'bg-white border-gray-300 focus:border-blue-500'
-                      } focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:opacity-50`}
-                    >
-                      <option value="">Select Budget Range</option>
-                      <option value="<$500">Less than $500</option>
-                      <option value="$500-$2500">$500 - $2,500</option>
-                      <option value="$2500-$5000">$2,500 - $5,000</option>
-                      <option value="$5000-$10000">$5,000 - $10,000</option>
-                      <option value="$10000+">$10,000+</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className={`block text-sm font-medium mb-2 ${
-                      darkMode ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      Timeline
-                    </label>
-                    <select
-                      name="timeline"
-                      value={formData.timeline}
-                      onChange={handleFormChange}
-                      disabled={isSubmitting}
-                      className={`w-full px-4 py-4 rounded-xl border transition-all duration-200 ${
-                        darkMode 
-                          ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500' 
-                          : 'bg-white border-gray-300 focus:border-blue-500'
-                      } focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:opacity-50`}
-                    >
-                      <option value="">Select Timeline</option>
-                      <option value="urgent">ASAP (Rush)</option>
-                      <option value="1-2weeks">1-2 weeks</option>
-                      <option value="1month">1 month</option>
-                      <option value="2-3months">2-3 months</option>
-                      <option value="flexible">Flexible</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Message */}
-                <div>
-                  <label className={`block text-sm font-medium mb-2 ${
-                    darkMode ? 'text-gray-300' : 'text-gray-700'
-                  }`}>
-                    Project Details *
-                  </label>
+                <div className="contact-form-field">
+                  <label>Your Message *</label>
                   <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleFormChange}
-                    rows={6}
                     required
-                    disabled={isSubmitting}
-                    className={`w-full px-4 py-4 rounded-xl border transition-all duration-200 resize-none ${
-                      darkMode 
-                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-blue-500' 
-                        : 'bg-white border-gray-300 placeholder-gray-500 focus:border-blue-500'
-                    } focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:opacity-50`}
-                    placeholder="Tell me about your project requirements, goals, and any specific technologies you'd like to use..."
-                  ></textarea>
+                    rows={5}
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    placeholder="Tell me about your project, timeline, and budget..."
+                    style={{ resize: 'vertical', minHeight: '120px' }}
+                  />
                 </div>
-
-                {/* Submit Button */}
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  className="btn btn-primary contact-form-submit"
+                  disabled={sending}
                 >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      <span>Sending...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5" />
-                      <span>Send Message</span>
-                    </>
-                  )}
+                  {sending ? 'Sending...' : 'Send Message'}
                 </button>
-
-                <p className={`text-sm text-center ${
-                  darkMode ? 'text-gray-400' : 'text-gray-500'
-                }`}>
-                  I'll respond to your message within 24 hours. For urgent inquiries, please call directly.
-                </p>
               </form>
-            </div>
-          </div>
+            )}
+          </Reveal>
         </div>
       </div>
+
+      <style>{`
+        .contact-section { background: var(--bg2); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+        .contact-info { display: flex; flex-direction: column; gap: 20px; }
+        .contact-info-title { font-size: 20px; font-weight: 700; margin: 0; }
+        .contact-info-desc { color: var(--txt2); font-size: 15px; line-height: 1.7; margin: 0; }
+        .contact-rate-card { padding: 20px 24px; border-left: 4px solid var(--s); }
+        .contact-rate-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .contact-rate-label { font-weight: 700; font-size: 14px; color: var(--s); }
+        .contact-rate-value { font-size: 24px; font-weight: 800; color: var(--txt); margin-bottom: 4px; }
+        .contact-rate-note { font-size: 13px; color: var(--txt3); margin: 0; }
+        .contact-details { display: flex; flex-direction: column; gap: 16px; }
+        .contact-detail-item { display: flex; flex-direction: column; gap: 2px; text-decoration: none; color: inherit; }
+        .contact-detail-item a { color: var(--p); }
+        .contact-detail-icon { font-size: 18px; margin-bottom: 2px; }
+        .contact-detail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--txt3); }
+        .contact-detail-value { font-size: 14px; font-weight: 500; color: var(--txt2); }
+        .contact-detail-item[href] .contact-detail-value { color: var(--p); }
+        a.contact-detail-item:hover .contact-detail-value { color: var(--s); }
+        .contact-quick-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .contact-quick-btn { padding: 10px 18px; font-size: 13px; text-decoration: none; }
+        .contact-success { padding: 48px 32px; text-align: center; }
+        .contact-success-icon { font-size: 56px; margin-bottom: 16px; }
+        .contact-success-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+        .contact-success-desc { color: var(--txt2); margin-bottom: 24px; }
+        .contact-form { display: flex; flex-direction: column; gap: 16px; }
+        .contact-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .contact-form-field label { margin-bottom: 6px; }
+        .contact-form-submit { padding: 14px 24px; font-size: 15px; justify-content: center; }
+        @media (max-width: 768px) {
+          .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+          .contact-form-row { grid-template-columns: 1fr; }
+        }
+      `}</style>
     </section>
   );
-};
-
-export default ContactSection;
+}

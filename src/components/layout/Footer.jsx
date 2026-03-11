@@ -1,171 +1,147 @@
-// src/components/layout/Footer.jsx
 import React from 'react';
-import { Sparkles, Github, Linkedin, Mail, Youtube } from 'lucide-react';
-import { useTheme } from '../../contexts/ThemeContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { getDesignProfile } from '../../utils/designData';
+import { usePortfolioData } from '../../contexts/PortfolioContext';
 
-const Footer = () => {
-  const { darkMode } = useTheme();
+export default function Footer() {
+  const { profile, freelanceSettings } = usePortfolioData();
+  const designProfile = getDesignProfile(profile, freelanceSettings);
+  const navigate = useNavigate();
 
-  const quickLinks = [
-    { name: 'About', href: '#about', isHash: true },
-    { name: 'Skills', href: '#skills', isHash: true },
-    { name: 'Projects', href: '#projects', isHash: true },
-    { name: 'Products', href: '/products', isHash: false }, // New Products link
-    { name: 'Services', href: '#services', isHash: true }
-  ];
-
-  const handleHashClick = (href) => {
-    document.getElementById(href.substring(1))?.scrollIntoView({ behavior: 'smooth' });
+  const scrollTo = (id) => {
+    if (window.location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 100);
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
-    <footer className={`py-16 ${
-      darkMode 
-        ? 'bg-gray-900 border-t border-gray-800' 
-        : 'bg-gray-50 border-t border-gray-200'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          {/* Brand */}
-          <div className="md:col-span-2">
-            <div className="flex items-center space-x-2 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 rounded-lg flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-white" />
-              </div>
-              <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
-                Shamim Khaled
-              </div>
+    <footer style={{ borderTop: '1px solid var(--gb)', padding: '38px 24px 22px', background: 'var(--bg2)' }}>
+      <div className="container">
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '36px', marginBottom: '28px' }}>
+          <div>
+            <div style={{ fontFamily: 'var(--fm)', fontWeight: '700', fontSize: '14px', marginBottom: '9px' }}>
+              <span style={{ color: '#00d4ff' }}>&gt;</span> <span style={{ color: '#00d4ff' }}>shamim</span>
+              <span style={{ color: '#39ff14' }}>@</span>
+              <span>portfolio</span>
             </div>
-            <p className={`mb-6 max-w-md ${
-              darkMode ? 'text-gray-400' : 'text-gray-600'
-            }`}>
-              AI/ML Engineer & Python Developer passionate about building intelligent systems and solving real-world challenges with cutting-edge technology.
+            <p style={{ color: 'var(--txt2)', fontSize: '13px', lineHeight: '1.7', maxWidth: '250px', marginBottom: '14px' }}>
+              {designProfile.tagline}
             </p>
-            <div className="flex space-x-4">
-              <a 
-                href="https://github.com/shamimkhaled" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className={`p-3 rounded-xl transition-all duration-200 hover:scale-110 ${
-                  darkMode 
-                    ? 'bg-gray-800 text-gray-300 hover:text-blue-400' 
-                    : 'bg-gray-100 text-gray-600 hover:text-blue-600'
-                }`}
-              >
-                <Github className="w-5 h-5" />
-              </a>
-              <a 
-                href="https://www.linkedin.com/in/shamim-khaled/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className={`p-3 rounded-xl transition-all duration-200 hover:scale-110 ${
-                  darkMode 
-                    ? 'bg-gray-800 text-gray-300 hover:text-blue-400' 
-                    : 'bg-gray-100 text-gray-600 hover:text-blue-600'
-                }`}
-              >
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a 
-                href="https://www.youtube.com/@spikegrowth" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className={`p-3 rounded-xl transition-all duration-200 hover:scale-110 ${
-                  darkMode 
-                    ? 'bg-gray-800 text-gray-300 hover:text-red-400' 
-                    : 'bg-gray-100 text-gray-600 hover:text-red-600'
-                }`}
-              >
-                <Youtube className="w-5 h-5" />
-              </a>
-              <a 
-                href="mailto:i.amshamim94@gmail.com"
-                className={`p-3 rounded-xl transition-all duration-200 hover:scale-110 ${
-                  darkMode 
-                    ? 'bg-gray-800 text-gray-300 hover:text-blue-400' 
-                    : 'bg-gray-100 text-gray-600 hover:text-blue-600'
-                }`}
-              >
-                <Mail className="w-5 h-5" />
-              </a>
-            </div>
+            {designProfile.availability && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontFamily: 'var(--fm)', fontSize: '11px', color: '#39ff14' }}>
+                <span className="availability-pulse" />
+                {designProfile.rate} · Available
+              </div>
+            )}
           </div>
-
-          {/* Quick Links */}
           <div>
-            <h4 className={`text-lg font-semibold mb-6 ${
-              darkMode ? 'text-white' : 'text-gray-900'
-            }`}>Quick Links</h4>
-            <div className="space-y-3">
-              {quickLinks.map((link) => (
-                link.isHash ? (
-                  <button
-                    key={link.name}
-                    onClick={() => handleHashClick(link.href)}
-                    className={`block transition-colors text-left ${
-                      darkMode 
-                        ? 'text-gray-400 hover:text-blue-400' 
-                        : 'text-gray-600 hover:text-blue-600'
-                    }`}
-                  >
-                    {link.name}
-                  </button>
-                ) : (
-                  <Link
-                    key={link.name}
-                    to={link.href}
-                    className={`block transition-colors ${
-                      darkMode 
-                        ? 'text-gray-400 hover:text-blue-400' 
-                        : 'text-gray-600 hover:text-blue-600'
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
-                )
-              ))}
+            <div style={{ fontFamily: 'var(--fm)', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--txt3)', marginBottom: '12px' }}>
+              # navigate
             </div>
+            {['about', 'skills', 'experience', 'education', 'contact'].map((id) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => scrollTo(id)}
+                style={{
+                  display: 'block',
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--txt2)',
+                  fontFamily: 'var(--fm)',
+                  fontSize: '12px',
+                  cursor: 'pointer',
+                  marginBottom: '7px',
+                  textAlign: 'left',
+                  transition: 'color 0.2s',
+                  padding: '2px 0',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#00d4ff')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--txt2)')}
+              >
+                ./{id}
+              </button>
+            ))}
+            <Link
+              to="/projects"
+              onClick={() => navigate('/projects')}
+              style={{
+                display: 'block',
+                background: 'none',
+                border: 'none',
+                color: 'var(--txt2)',
+                fontFamily: 'var(--fm)',
+                fontSize: '12px',
+                cursor: 'pointer',
+                marginBottom: '7px',
+                textAlign: 'left',
+                transition: 'color 0.2s',
+                padding: '2px 0',
+                textDecoration: 'none',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#00d4ff')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--txt2)')}
+            >
+              ./projects
+            </Link>
           </div>
-
-          {/* Services */}
           <div>
-            <h4 className={`text-lg font-semibold mb-6 ${
-              darkMode ? 'text-white' : 'text-gray-900'
-            }`}>Services</h4>
-            <div className="space-y-3">
-              {['AI/ML Development', 'Web Development', 'Backend APIs', 'Data Science'].map((service) => (
-                <div key={service} className={darkMode ? 'text-gray-400' : 'text-gray-600'}>
-                  {service}
-                </div>
-              ))}
+            <div style={{ fontFamily: 'var(--fm)', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--txt3)', marginBottom: '12px' }}>
+              # links
             </div>
+            {[
+              ['GitHub', designProfile.github],
+              ['LinkedIn', designProfile.linkedin],
+              ['dev.to', `https://dev.to/${designProfile.devto}`],
+              ['Email', `mailto:${designProfile.email}`],
+            ].map(([label, href]) => (
+              <a
+                key={label}
+                href={href}
+                style={{
+                  display: 'block',
+                  color: 'var(--txt2)',
+                  fontFamily: 'var(--fm)',
+                  fontSize: '12px',
+                  textDecoration: 'none',
+                  marginBottom: '7px',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#00d4ff')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--txt2)')}
+              >
+                {label} ↗
+              </a>
+            ))}
           </div>
         </div>
-
-        {/* Bottom Bar */}
-        <div className={`mt-12 pt-8 border-t ${
-          darkMode ? 'border-gray-700' : 'border-gray-200'
-        }`}>
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className={`text-sm ${
-              darkMode ? 'text-gray-400' : 'text-gray-600'
-            }`}>
-              © 2025 Shamim Khaled. All rights reserved. Built with React and Tailwind CSS.
-            </p>
-            <div className="flex items-center space-x-6 mt-4 md:mt-0">
-              <span className={`text-sm ${
-                darkMode ? 'text-gray-500' : 'text-gray-500'
-              }`}>
-                Made with ❤️ in Bangladesh
+        <div style={{ borderTop: '1px solid var(--gb)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '9px' }}>
+          <span style={{ fontFamily: 'var(--fm)', fontSize: '11px', color: 'var(--txt3)' }}>
+            © {new Date().getFullYear()} {designProfile.name}
+          </span>
+          <div style={{ display: 'flex', gap: '5px' }}>
+            {['Python', 'Django', 'React'].map((t) => (
+              <span
+                key={t}
+                style={{
+                  fontFamily: 'var(--fm)',
+                  fontSize: '10px',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  background: 'var(--glass)',
+                  border: '1px solid var(--gb)',
+                  color: 'var(--txt3)',
+                }}
+              >
+                {t}
               </span>
-            </div>
+            ))}
           </div>
         </div>
       </div>
     </footer>
   );
-};
-
-export default Footer;
-
+}

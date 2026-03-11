@@ -1,72 +1,37 @@
-// src/pages/HomePage.jsx
-import React, { useState, useEffect } from 'react';
-import { useTheme } from '../contexts/ThemeContext';
-import Header from '../components/layout/Header';
-import HeroSection from '../components/sections/HeroSection';
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
+import HeroSection from '../components/hero/HeroSection';
+import WhatIDoSection from '../components/sections/WhatIDoSection';
+import AvailabilityBanner from '../components/sections/AvailabilityBanner';
 import AboutSection from '../components/sections/AboutSection';
+import FeaturedProjectsSection from '../components/sections/FeaturedProjectsSection';
 import SkillsSection from '../components/sections/SkillsSection';
-import ProjectsSection from '../components/sections/ProjectsSection';
-import ServicesSection from '../components/sections/ServicesSection';
-import TestimonialsSection from '../components/sections/TestimonialsSection';
+import ExperienceSection from '../components/sections/ExperienceSection';
+import EducationSection from '../components/sections/EducationSection';
+import HireMeSection from '../components/sections/HireMeSection';
+import BlogSection from '../components/sections/BlogSection';
 import ContactSection from '../components/sections/ContactSection';
-import Footer from '../components/layout/Footer';
 
-const HomePage = () => {
-  const { darkMode } = useTheme();
-  const [activeSection, setActiveSection] = useState('home');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const scrollToSection = (sectionId) => {
-    setActiveSection(sectionId);
-    setMobileMenuOpen(false);
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  // Scroll spy effect
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['home', 'about', 'skills', 'projects', 'services', 'testimonials', 'contact'];
-      const scrollPosition = window.scrollY + 100;
-
-      sections.forEach((section) => {
-        const element = document.getElementById(section);
-        if (element) {
-          const offsetTop = element.offsetTop;
-          const offsetHeight = element.offsetHeight;
-          
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section);
-          }
-        }
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  return (
-    <div className={`min-h-screen transition-colors duration-300 ${
-      darkMode ? 'dark bg-gray-900 text-white' : 'bg-white text-gray-900'
-    }`}>
-      <Header 
-        activeSection={activeSection}
-        setActiveSection={setActiveSection}
-        mobileMenuOpen={mobileMenuOpen}
-        setMobileMenuOpen={setMobileMenuOpen}
-        scrollToSection={scrollToSection}
-      />
-      
-      <HeroSection scrollToSection={scrollToSection} />
+const HomePage = () => (
+  <>
+    <Helmet>
+      <title>Shamim Khaled - Full Stack Python/Django Developer | Freelance</title>
+      <meta name="description" content="Shamim Khaled - Full Stack Developer, Python Expert, Django Specialist from Dhaka, Bangladesh. Hire for freelance and remote work." />
+    </Helmet>
+    <main>
+      <HeroSection />
+      <AvailabilityBanner />
+      <WhatIDoSection />
       <AboutSection />
       <SkillsSection />
-      <ProjectsSection />
-      <ServicesSection scrollToSection={scrollToSection} />
-      <TestimonialsSection />
+      <FeaturedProjectsSection />
+      <ExperienceSection />
+      <EducationSection />
+      <HireMeSection />
+      <BlogSection />
       <ContactSection />
-      <Footer />
-    </div>
-  );
-};
+    </main>
+  </>
+);
 
 export default HomePage;
