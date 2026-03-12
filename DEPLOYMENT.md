@@ -79,7 +79,8 @@ For deploys that run on GitHub (when you push to `main`), credentials go in **Re
 ### Option A: Deploy from GitHub (automatic)
 
 1. Add the secrets above.
-2. **Enable Pages** (one-time): **Settings** → **Pages** → Source: **Deploy from a branch** → Branch: `gh-pages` / `/(root)` → Save.
+2. **Workflow permissions** (if deploy fails with "Write access not granted"): **Settings** → **Actions** → **General** → **Workflow permissions** → select **Read and write permissions** → Save.
+3. **Enable Pages** (one-time): **Settings** → **Pages** → Source: **Deploy from a branch** → Branch: `gh-pages` / `/(root)` → Save.
 3. Push to `main` or `master`:
 
    ```bash
