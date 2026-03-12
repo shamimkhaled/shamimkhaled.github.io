@@ -76,12 +76,14 @@ For deploys that run on GitHub (when you push to `main`), credentials go in **Re
 
 ## 3. Deploy to GitHub Pages
 
-### Option A: Deploy from GitHub (automatic)
+### Option A: Deploy from GitHub Actions (recommended for user sites)
+
+For `username.github.io` repos, GitHub Pages works best with **GitHub Actions** as the source (not `gh-pages` branch).
 
 1. Add the secrets above.
-2. **Workflow permissions** (if deploy fails with "Write access not granted"): **Settings** → **Actions** → **General** → **Workflow permissions** → select **Read and write permissions** → Save.
-3. **Enable Pages** (one-time): **Settings** → **Pages** → Source: **Deploy from a branch** → Branch: `gh-pages` / `/(root)` → Save.
-3. Push to `main` or `master`:
+2. **Workflow permissions**: **Settings** → **Actions** → **General** → **Workflow permissions** → select **Read and write permissions** → Save.
+3. **Enable Pages** (one-time): **Settings** → **Pages** → Source: **GitHub Actions** (not "Deploy from a branch") → Save.
+4. Push to `main` or `master`:
 
    ```bash
    git add .
@@ -89,9 +91,9 @@ For deploys that run on GitHub (when you push to `main`), credentials go in **Re
    git push origin main
    ```
 
-4. The workflow builds and pushes to the `gh-pages` branch. Your site will be live at the Pages URL.
+5. The workflow builds and deploys. Your site will be live at `https://shamimkhaled.github.io`.
 
-### Option B: Deploy from your machine
+### Option B: Deploy from your machine (alternative)
 
 1. Ensure `.env` exists with your credentials.
 2. Run:
@@ -103,7 +105,9 @@ For deploys that run on GitHub (when you push to `main`), credentials go in **Re
 
    This pushes the `build/` folder to the `gh-pages` branch.
 
-3. Configure Pages: **Settings** → **Pages** → Source: **Deploy from a branch** → Branch: `gh-pages`.
+3. Configure Pages: **Settings** → **Pages** → Source: **Deploy from a branch** → Branch: `gh-pages` / `/(root)`.
+
+   **Note:** For `username.github.io`, branch deployment may require `main` + `/docs`. The GitHub Actions method above avoids this.
 
 ---
 
