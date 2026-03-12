@@ -41,7 +41,7 @@ export default function Footer() {
             <div style={{ fontFamily: 'var(--fm)', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '2px', color: 'var(--txt3)', marginBottom: '12px' }}>
               # navigate
             </div>
-            {['about', 'skills', 'experience', 'education', 'contact'].map((id) => (
+            {['about', 'services', 'skills', 'experience', 'education', 'contact'].map((id) => (
               <button
                 key={id}
                 type="button"

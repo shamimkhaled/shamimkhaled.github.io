@@ -1,18 +1,18 @@
 /**
  * Single source of truth for portfolio data.
- * Persisted to localStorage via usePortfolioData hook.
+ * Persisted to Supabase via PortfolioContext.
  */
 
 export const defaultProfile = {
   name: 'Shamim Khaled',
-  title: 'Python & Django Developer',
-  tagline: 'Building scalable backends and intelligent systems that drive business value.',
+  title: 'Machine Learning Engineer & Python Developer',
+  tagline: 'Building scalable AI systems, backends, and DevOps pipelines that drive business value.',
   email: 'i.amshamim94@gmail.com',
   phone: '+880 1903526254',
   location: 'Dhaka, Bangladesh',
   avatar: '/assets/images/shamim.jpeg',
   resumeUrl: 'https://drive.google.com/file/d/1L9COYGeo4UQxHUz4aFFMZkSkqqqXV0Qq/view?usp=sharing',
-  bio: `I'm a passionate Python Developer and AI/ML Engineer with 2+ years of experience building intelligent systems and solving complex real-world problems. My technical expertise spans across Machine Learning, Deep Learning, and Web Application Development. I specialize in building scalable AI solutions that drive business value and deliver measurable results. I'm committed to continuous learning and staying current with the latest technological advancements.`,
+  bio: `I'm a Machine Learning Engineer and Python Developer with 2+ years of experience building intelligent systems and production-ready pipelines. My expertise spans ML/AI, backend development, and DevOps. I specialize in scalable AI solutions, REST APIs, and deployment automation that drive measurable business value.`,
   social: {
     github: 'https://github.com/shamimkhaled',
     linkedin: 'https://www.linkedin.com/in/shamim-khaled/',
@@ -27,18 +27,24 @@ export const defaultProfile = {
 export const defaultServices = [
   {
     id: '1',
-    title: 'Backend Development',
-    description: 'Python, Django, REST APIs — robust, scalable server-side solutions.',
-    icon: 'backend',
+    title: 'AI/ML Engineering',
+    description: 'LLM apps, RAG, fine-tuning, model deployment — production-ready AI solutions.',
+    icon: 'ml-ai',
   },
   {
     id: '2',
-    title: 'Frontend Development',
-    description: 'React, Tailwind, responsive UI — clean, performant interfaces.',
-    icon: 'frontend',
+    title: 'Backend & APIs',
+    description: 'Python, Django, FastAPI, REST APIs — robust, scalable server-side solutions.',
+    icon: 'backend',
   },
   {
     id: '3',
+    title: 'DevOps & Infrastructure',
+    description: 'Docker, CI/CD, cloud deployment — reliable, automated pipelines.',
+    icon: 'devops',
+  },
+  {
+    id: '4',
     title: 'Freelance & Remote Work',
     description: 'Available for projects — hourly and fixed price. Free consultation.',
     icon: 'freelance',
@@ -85,9 +91,20 @@ export const defaultSkills = [
     category: 'DevOps',
     skills: [
       { name: 'Docker', icon: '🐳' },
+      { name: 'Kubernetes', icon: '☸️' },
       { name: 'Git', icon: '📝' },
-      { name: 'Digital Ocean', icon: '🌊' },
+      { name: 'CI/CD', icon: '🔄' },
       { name: 'Linux', icon: '🐧' },
+      { name: 'AWS', icon: '☁️' },
+    ],
+  },
+  {
+    category: 'ML/AI',
+    skills: [
+      { name: 'TensorFlow', icon: '🧠' },
+      { name: 'PyTorch', icon: '🔥' },
+      { name: 'LangChain', icon: '🔗' },
+      { name: 'Scikit-learn', icon: '📊' },
     ],
   },
 ];
@@ -224,10 +241,28 @@ export const defaultProjects = [
 export const defaultExperience = [
   {
     id: '1',
+    company: 'Alawaf Technologies LTD',
+    role: 'Software Engineer (AI/ML)',
+    dateRange: 'Aug 2025 – Present',
+    jobType: 'Full-time',
+    location: 'Remote',
+    description: 'I am a full-stack developer and team lead who developed an ISP Sales Dashboard for KTL ISP companies using Django REST API, PostgreSQL, and React (TypeScript), deployed on virtual machines. I also contributed to an HRMS application built with the MERN stack, focusing on VM deployment and infrastructure setup. Additionally, I worked with rConfig v6, an open-source Laravel-based network configuration management platform for automated network device backup. Alongside these projects, I developed ChainSight AI, an AI-powered virtual contract analyzer built with Django REST API, OpenAI models, PostgreSQL, ChromaDB, and DigitalOcean.',
+    achievements: [
+      'Led full-stack development of an ISP Sales & KTL Metrics Dashboard using Django REST API, PostgreSQL, and React (TypeScript).',
+      'Deployed web applications on VM infrastructure and managed server configuration and production environments.',
+      'Contributed to HRMS development using the MERN stack with focus on deployment and backend integration.',
+      'Implemented automated network device configuration backups using rConfig v6 (Laravel).',
+      'Built ChainSight AI, an AI-powered contract analysis system using Django REST API, OpenAI models, PostgreSQL, and ChromaDB.',
+    ],
+    technologies: ['Django REST API', 'PostgreSQL', 'React', 'TypeScript', 'MERN', 'OpenAI', 'ChromaDB', 'DigitalOcean', 'Laravel', 'rConfig'],
+  },
+  {
+    id: '2',
     company: 'Serenus One',
     role: 'Software Engineer',
-    dateRange: 'Sept 2024 - Jan 2025',
+    dateRange: 'Sept 2024 – Jan 2025',
     jobType: 'Full-time',
+    location: 'Remote',
     description: 'Developing robust Django REST API and FastAPI solutions with user authentication, Google/Discord login integration, payment systems, and TTS systems using Piper TTS and Coqui TTS. Fine-tuning OpenAI GPT-4o models for meditation script generation.',
     achievements: [
       'Built Django REST API with OAuth integration',
@@ -237,11 +272,12 @@ export const defaultExperience = [
     technologies: ['Django', 'FastAPI', 'OpenAI', 'PostgreSQL'],
   },
   {
-    id: '2',
+    id: '3',
     company: 'Enny Sports',
     role: 'Tech Lead - Backend (Python)',
-    dateRange: '2024 - 2025',
+    dateRange: 'Sept 2024 – May 2025',
     jobType: 'Full-time',
+    location: 'Remote',
     description: 'Developed Django REST API backend for Flutter-based iOS and Android fitness application, currently live on App Store and Play Store.',
     achievements: [
       'Led backend architecture for fitness app',
@@ -251,11 +287,12 @@ export const defaultExperience = [
     technologies: ['Django', 'REST API', 'PostgreSQL', 'Flutter'],
   },
   {
-    id: '3',
+    id: '4',
     company: 'Rana Motors',
     role: 'Jr Software Engineer',
-    dateRange: '2022 - 2023',
+    dateRange: 'July 2022 – August 2024',
     jobType: 'Full-time',
+    location: 'Remote',
     description: 'Designed and developed comprehensive Inventory Management System using Django.',
     achievements: [
       'Built full inventory management system',
@@ -286,6 +323,29 @@ export const defaultCertifications = [
   },
 ];
 
+export const defaultSiteSettings = {
+  siteTitle: 'Shamim Khaled - ML Engineer & Python Developer',
+  siteDescription: 'Machine Learning Engineer, Python Developer, and DevOps-focused engineer from Dhaka, Bangladesh. Building scalable AI systems and production-ready applications.',
+  siteKeywords: 'Shamim Khaled, ML Engineer, Machine Learning, Python Developer, Django, DevOps, AI, Freelance Developer, Bangladesh',
+};
+
+export const defaultSectionConfig = {
+  order: [
+    'hero',
+    'availability',
+    'services',
+    'about',
+    'skills',
+    'projects',
+    'experience',
+    'education',
+    'hire',
+    'blog',
+    'contact',
+  ],
+  hidden: [],
+};
+
 export const defaultContactSettings = {
   formEnabled: true,
   email: 'i.amshamim94@gmail.com',
@@ -300,7 +360,7 @@ export const defaultFreelanceSettings = {
   available: true,
   availabilityText: 'Open to Work',
   hourlyRate: '$25/hr',
-  preferredWorkTypes: ['Remote Work', 'Freelance Projects', 'Contract Work', 'Full-time'],
+  preferredWorkTypes: ['Remote', 'Hybrid', 'Full-time', 'Part-time', 'Contract', 'Freelance'],
   consultationOffer: 'First 30 min consultation is free',
   consultationCtaText: 'Book Free Consultation',
   responseTime: 'Usually responds within 24 hours',
@@ -308,8 +368,6 @@ export const defaultFreelanceSettings = {
   hirePitch: 'Have a project in mind? Let\'s talk. I\'m ready to help you build scalable backends, AI solutions, and automation tools for your business.',
   hireCtaText: 'Hire Me for Your Project',
 };
-
-export const STORAGE_KEY = 'shamim_portfolio_data';
 
 export const getInitialData = () => ({
   profile: defaultProfile,
@@ -322,4 +380,6 @@ export const getInitialData = () => ({
   certifications: defaultCertifications,
   freelanceSettings: defaultFreelanceSettings,
   contactSettings: defaultContactSettings,
+  siteSettings: defaultSiteSettings,
+  sectionConfig: defaultSectionConfig,
 });

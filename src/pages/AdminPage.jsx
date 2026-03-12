@@ -1,24 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { HiSave, HiPlus, HiTrash, HiUser, HiCode, HiFolder, HiBriefcase, HiAcademicCap, HiCurrencyDollar, HiMail, HiChartBar, HiCog } from 'react-icons/hi';
+import { HiSave, HiPlus, HiTrash, HiUser, HiCode, HiFolder, HiBriefcase, HiAcademicCap, HiCurrencyDollar, HiMail, HiChartBar, HiCog, HiGlobe, HiViewGrid, HiDatabase, HiCheckCircle } from 'react-icons/hi';
 import { usePortfolioData } from '../contexts/PortfolioContext';
 import { Toaster, toast } from 'react-hot-toast';
+import { isSupabaseConfigured, supabase } from '../lib/supabase';
+import { saveToSupabase, fetchRawFromSupabase } from '../services/portfolioDb';
+import { getInitialData } from '../data/portfolioData';
 
-// Trim env values - .env can have trailing newline/whitespace
+// Trim env values - .env can have trailing newline/whitespace (used when Supabase not configured)
 const ADMIN_USERNAME = (process.env.REACT_APP_ADMIN_USERNAME || 'admin').trim().toLowerCase();
 const ADMIN_PASSWORD = (process.env.REACT_APP_ADMIN_PASSWORD || 'admin123').trim();
+const SUPABASE_ADMIN_EMAIL = (process.env.REACT_APP_SUPABASE_ADMIN_EMAIL || '').trim();
 
 const AdminPage = () => {
-  const [authenticated, setAuthenticated] = useState(
-    () => sessionStorage.getItem('portfolio_admin_auth') === 'true'
-  );
+  const [authenticated, setAuthenticated] = useState(false);
+  const [authChecking, setAuthChecking] = useState(isSupabaseConfigured);
+  const [email, setEmail] = useState(SUPABASE_ADMIN_EMAIL);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [saving, setSaving] = useState(false);
+  const [seeding, setSeeding] = useState(false);
+  const [verifying, setVerifying] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = (e) => {
+  useEffect(() => {
+    if (!isSupabaseConfigured) {
+      const stored = sessionStorage.getItem('portfolio_admin_auth') === 'true';
+      setAuthenticated(stored);
+      setAuthChecking(false);
+      return;
+    }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setAuthenticated(!!session);
+      setAuthChecking(false);
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthenticated(!!session);
+    });
+    return () => subscription?.unsubscribe();
+  }, []);
+
+  const handleLogin = async (e) => {
     e.preventDefault();
+    if (isSupabaseConfigured) {
+      const trimmedEmail = (email || '').trim();
+      const trimmedPassword = (password || '').trim();
+      if (!trimmedEmail || !trimmedPassword) {
+        toast.error('Email and password required.');
+        return;
+      }
+      try {
+        const { error } = await supabase.auth.signInWithPassword({ email: trimmedEmail, password: trimmedPassword });
+        if (error) {
+          toast.error(error.message || 'Invalid credentials.');
+          return;
+        }
+        setAuthenticated(true);
+      } catch (err) {
+        toast.error('Login failed.');
+      }
+      return;
+    }
     const trimmedUsername = (username || '').trim().toLowerCase();
     const trimmedPassword = (password || '').trim();
     if (trimmedUsername === ADMIN_USERNAME && trimmedPassword === ADMIN_PASSWORD) {
@@ -29,10 +71,23 @@ const AdminPage = () => {
     }
   };
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('portfolio_admin_auth');
+  const handleLogout = async () => {
+    if (isSupabaseConfigured && supabase) {
+      await supabase.auth.signOut();
+    } else {
+      sessionStorage.removeItem('portfolio_admin_auth');
+    }
     setAuthenticated(false);
   };
+
+  if (authChecking) {
+    return (
+      <div className="admin-login-wrap">
+        <Toaster position="top-center" />
+        <div className="admin-login-card card">Checking authentication…</div>
+      </div>
+    );
+  }
 
   if (!authenticated) {
     return (
@@ -46,20 +101,42 @@ const AdminPage = () => {
           <div className="admin-login-header">
             <span className="admin-login-icon" aria-hidden>🔐</span>
             <h1 className="admin-login-title">Admin Login</h1>
-            <p className="admin-login-hint">Enter your credentials to manage the portfolio.</p>
+            <p className="admin-login-hint">
+              {isSupabaseConfigured
+                ? 'Sign in with your Supabase admin account.'
+                : 'Enter your credentials to manage the portfolio.'}
+            </p>
           </div>
           <form onSubmit={handleLogin} className="admin-login-form">
-            <label htmlFor="admin-username" className="admin-login-label">Username</label>
-            <input
-              type="text"
-              id="admin-username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="admin-login-input"
-              placeholder="Enter username"
-              autoComplete="username"
-              autoFocus
-            />
+            {isSupabaseConfigured ? (
+              <>
+                <label htmlFor="admin-email" className="admin-login-label">Email</label>
+                <input
+                  type="email"
+                  id="admin-email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="admin-login-input"
+                  placeholder="admin@example.com"
+                  autoComplete="email"
+                  autoFocus
+                />
+              </>
+            ) : (
+              <>
+                <label htmlFor="admin-username" className="admin-login-label">Username</label>
+                <input
+                  type="text"
+                  id="admin-username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="admin-login-input"
+                  placeholder="Enter username"
+                  autoComplete="username"
+                  autoFocus
+                />
+              </>
+            )}
             <label htmlFor="admin-password" className="admin-login-label">Password</label>
             <div className="admin-login-input-wrap">
               <input
@@ -82,9 +159,11 @@ const AdminPage = () => {
                 {showPassword ? '🙈' : '👁️'}
               </button>
             </div>
-            <p id="admin-password-hint" className="admin-login-hint-inline">
-              {/* Default: <code>admin</code> / <code>admin123</code> (set <code>REACT_APP_ADMIN_USERNAME</code> &amp; <code>REACT_APP_ADMIN_PASSWORD</code> in .env) */}
-            </p>
+            {!isSupabaseConfigured && (
+              <p id="admin-password-hint" className="admin-login-hint-inline">
+                Default: <code>admin</code> / <code>admin123</code> (set REACT_APP_ADMIN_USERNAME &amp; REACT_APP_ADMIN_PASSWORD in .env)
+              </p>
+            )}
             <button type="submit" className="btn btn-primary admin-login-submit">
               Login
             </button>
@@ -125,7 +204,7 @@ const AdminPage = () => {
             outline: none;
             transition: border-color 0.2s;
           }
-          .admin-login-input:focus { border-color: var(--p); }
+          .admin-login-input:focus { border-color: var(--p); box-shadow: 0 0 0 3px rgba(0,212,255,0.12); }
           .admin-login-input::placeholder { color: var(--txt3); }
           .admin-login-toggle {
             flex-shrink: 0;
@@ -143,7 +222,7 @@ const AdminPage = () => {
           }
           .admin-login-toggle:hover { border-color: var(--p); color: var(--txt); }
           .admin-login-hint-inline { font-size: 12px; color: var(--txt3); margin: -4px 0 0; }
-          .admin-login-hint-inline code { background: rgba(99,102,241,0.15); padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+          .admin-login-hint-inline code { background: rgba(0,212,255,0.15); padding: 2px 6px; border-radius: 4px; font-size: 11px; }
           .admin-login-submit { width: 100%; padding: 14px; font-size: 15px; justify-content: center; margin-top: 8px; }
           @media (max-width: 480px) {
             .admin-login-card { padding: 24px 20px; }
@@ -154,15 +233,89 @@ const AdminPage = () => {
     );
   }
 
+  const handleVerifyDb = async () => {
+    setVerifying(true);
+    try {
+      const result = await fetchRawFromSupabase();
+      console.log('[Verify DB]', result);
+      if (result.source === 'none') {
+        toast.error('Supabase not configured — set REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_ANON_KEY');
+        return;
+      }
+      if (!result.ok) {
+        toast.error(`DB error: ${result.error || 'Unknown'}`);
+        return;
+      }
+      const msg = result.hasData
+        ? `Database has data. Keys: ${result.keys.join(', ')}. Updated: ${result.updatedAt || '—'}`
+        : 'Database row exists but data is empty. Use Seed Database to populate.';
+      toast.success(msg, { duration: 6000 });
+    } finally {
+      setVerifying(false);
+    }
+  };
+
+  const handleSeedDb = async () => {
+    if (!isSupabaseConfigured) return;
+    const confirmed = window.confirm(
+      '⚠️ Seed Database will REPLACE all your current portfolio data with default values.\n\n' +
+      'Any custom edits (profile, projects, experience, etc.) will be lost.\n\n' +
+      'Only use this if the table is empty or you want to reset to defaults.\n\n' +
+      'Continue?'
+    );
+    if (!confirmed) return;
+    setSeeding(true);
+    console.log('[Seed DB] Starting…');
+    try {
+      const initialData = getInitialData();
+      console.log('[Seed DB] Pushing data to Supabase…', { profileName: initialData.profile?.name, projectsCount: initialData.projects?.length });
+      await saveToSupabase(initialData);
+      console.log('[Seed DB] ✅ Success! Database seeded with default portfolio data.');
+      toast.success('Database seeded with default portfolio data!');
+      window.location.reload();
+    } catch (e) {
+      console.error('[Seed DB] ❌ Failed:', e);
+      toast.error('Seed failed. Check console.');
+    } finally {
+      setSeeding(false);
+    }
+  };
+
   return (
     <div className="admin-dash-wrap">
       <Toaster position="top-center" />
       <div className="admin-dash-inner">
         <div className="admin-dash-header">
           <h1 className="admin-dash-title grad-text">Admin Dashboard</h1>
-          <button type="button" onClick={handleLogout} className="admin-btn-ghost">
-            Logout
-          </button>
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+            {isSupabaseConfigured && (
+              <>
+                <button
+                  type="button"
+                  onClick={handleVerifyDb}
+                  disabled={verifying}
+                  className="admin-btn-ghost"
+                  title="Check if data exists in Supabase"
+                >
+                  <HiCheckCircle style={{ width: 18, height: 18, marginRight: 6 }} />
+                  {verifying ? 'Checking…' : 'Verify Database'}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSeedDb}
+                  disabled={seeding}
+                  className="admin-btn-ghost"
+                  title="Replace ALL data with defaults — use only when table is empty"
+                >
+                  <HiDatabase style={{ width: 18, height: 18, marginRight: 6 }} />
+                  {seeding ? 'Seeding…' : 'Seed Database'}
+                </button>
+              </>
+            )}
+            <button type="button" onClick={handleLogout} className="admin-btn-ghost">
+              Logout
+            </button>
+          </div>
         </div>
         <AdminTabs saving={saving} setSaving={setSaving} />
       </div>
@@ -172,6 +325,8 @@ const AdminPage = () => {
 
 const TABS = [
   { id: 'profile', label: 'Profile', icon: HiUser },
+  { id: 'site', label: 'Site Settings', icon: HiGlobe },
+  { id: 'sections', label: 'Sections', icon: HiViewGrid },
   { id: 'services', label: 'Services', icon: HiCog },
   { id: 'stats', label: 'Stats', icon: HiChartBar },
   { id: 'skills', label: 'Skills', icon: HiCode },
@@ -190,9 +345,11 @@ const AdminTabs = ({ saving, setSaving }) => {
     setSaving(true);
     try {
       updater();
+      await data.persistNow?.();
       toast.success('Saved successfully!');
     } catch (e) {
       toast.error('Failed to save');
+      console.error('Save error:', e);
     } finally {
       setSaving(false);
     }
@@ -216,6 +373,12 @@ const AdminTabs = ({ saving, setSaving }) => {
 
       {activeTab === 'profile' && (
         <ProfileEditor data={data} onSave={handleSave} saving={saving} />
+      )}
+      {activeTab === 'site' && (
+        <SiteSettingsEditor data={data} onSave={handleSave} saving={saving} />
+      )}
+      {activeTab === 'sections' && (
+        <SectionConfigEditor data={data} onSave={handleSave} saving={saving} />
       )}
       {activeTab === 'services' && (
         <ServicesEditor data={data} onSave={handleSave} saving={saving} />
@@ -285,6 +448,71 @@ const ProfileEditor = ({ data, onSave, saving }) => {
   );
 };
 
+const SiteSettingsEditor = ({ data, onSave, saving }) => {
+  const ss = data.siteSettings || {};
+  const [form, setForm] = useState({
+    siteTitle: ss.siteTitle || '',
+    siteDescription: ss.siteDescription || '',
+    siteKeywords: ss.siteKeywords || '',
+  });
+  return (
+    <div className="admin-panel">
+      <h2 className="admin-panel-title">SEO & Site Settings</h2>
+      <p style={{ color: 'var(--txt2)', fontSize: '14px', marginBottom: '20px' }}>
+        These appear in page title, meta tags, and search results.
+      </p>
+      <div className="admin-field"><label>Site Title</label><input value={form.siteTitle} onChange={(e) => setForm((f) => ({ ...f, siteTitle: e.target.value }))} className="admin-input" placeholder="Shamim Khaled - ML Engineer & Python Developer" /></div>
+      <div className="admin-field"><label>Meta Description</label><textarea rows={3} value={form.siteDescription} onChange={(e) => setForm((f) => ({ ...f, siteDescription: e.target.value }))} className="admin-input" placeholder="Brief description for search engines" style={{ resize: 'vertical' }} /></div>
+      <div className="admin-field"><label>Meta Keywords (comma-separated)</label><input value={form.siteKeywords} onChange={(e) => setForm((f) => ({ ...f, siteKeywords: e.target.value }))} className="admin-input" placeholder="ML Engineer, Python, Django, DevOps" /></div>
+      <div className="admin-actions"><button type="button" onClick={() => onSave(() => data.updateSiteSettings(form))} disabled={saving} className="admin-btn-primary"><HiSave style={{ width: 16, height: 16, marginRight: 8 }} /> {saving ? 'Saving...' : 'Save'}</button></div>
+    </div>
+  );
+};
+
+const SECTION_IDS = ['hero', 'availability', 'services', 'about', 'skills', 'projects', 'experience', 'education', 'hire', 'blog', 'contact'];
+const SectionConfigEditor = ({ data, onSave, saving }) => {
+  const sc = data.sectionConfig || {};
+  const [order, setOrder] = useState(sc.order ?? SECTION_IDS);
+  const [hidden, setHidden] = useState(sc.hidden ?? []);
+  const toggleHidden = (id) => {
+    setHidden((h) => (h.includes(id) ? h.filter((x) => x !== id) : [...h, id]));
+  };
+  const moveUp = (i) => {
+    if (i <= 0) return;
+    const next = [...order];
+    [next[i - 1], next[i]] = [next[i], next[i - 1]];
+    setOrder(next);
+  };
+  const moveDown = (i) => {
+    if (i >= order.length - 1) return;
+    const next = [...order];
+    [next[i], next[i + 1]] = [next[i + 1], next[i]];
+    setOrder(next);
+  };
+  return (
+    <div className="admin-panel">
+      <h2 className="admin-panel-title">Section Order & Visibility</h2>
+      <p style={{ color: 'var(--txt2)', fontSize: '14px', marginBottom: '20px' }}>
+        Control which sections appear and their order on the homepage.
+      </p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        {order.map((id, i) => (
+          <div key={id} className="admin-block" style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            <button type="button" onClick={() => moveUp(i)} disabled={i === 0} className="admin-btn-ghost" style={{ padding: '6px 10px' }}>↑</button>
+            <button type="button" onClick={() => moveDown(i)} disabled={i === order.length - 1} className="admin-btn-ghost" style={{ padding: '6px 10px' }}>↓</button>
+            <span style={{ fontFamily: 'var(--fm)', fontWeight: '600', minWidth: '120px' }}>{id}</span>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', margin: 0, textTransform: 'none' }}>
+              <input type="checkbox" checked={hidden.includes(id)} onChange={() => toggleHidden(id)} />
+              Hide section
+            </label>
+          </div>
+        ))}
+      </div>
+      <div className="admin-actions"><button type="button" onClick={() => onSave(() => data.updateSectionConfig({ order, hidden }))} disabled={saving} className="admin-btn-primary"><HiSave style={{ width: 16, height: 16, marginRight: 8 }} /> {saving ? 'Saving...' : 'Save'}</button></div>
+    </div>
+  );
+};
+
 const ServicesEditor = ({ data, onSave, saving }) => {
   const [services, setServices] = useState(data.services || []);
   const update = (i, updates) => setServices((s) => s.map((x, j) => (j === i ? { ...x, ...updates } : x)));
@@ -300,7 +528,7 @@ const ServicesEditor = ({ data, onSave, saving }) => {
         <div key={svc.id} className="admin-block">
           <div className="admin-row">
             <div className="admin-field"><label>Title</label><input value={svc.title || ''} onChange={(e) => update(i, { title: e.target.value })} className="admin-input" /></div>
-            <div className="admin-field"><label>Icon</label><select value={svc.icon || 'backend'} onChange={(e) => update(i, { icon: e.target.value })} className="admin-input"><option value="backend">⚙️ Backend</option><option value="frontend">🎨 Frontend</option><option value="freelance">🚀 Freelance</option></select></div>
+            <div className="admin-field"><label>Icon</label><select value={svc.icon || 'backend'} onChange={(e) => update(i, { icon: e.target.value })} className="admin-input"><option value="ml-ai">🧠 AI/ML</option><option value="backend">⚙️ Backend</option><option value="frontend">🎨 Frontend</option><option value="devops">☁️ DevOps</option><option value="freelance">🚀 Freelance</option></select></div>
           </div>
           <div className="admin-field"><label>Description</label><textarea rows={2} value={svc.description || ''} onChange={(e) => update(i, { description: e.target.value })} className="admin-input" style={{ resize: 'vertical' }} /></div>
           <button type="button" onClick={() => remove(i)} className="admin-btn-danger"><HiTrash style={{ width: 14, height: 14, marginRight: 6, verticalAlign: 'middle' }} /> Remove</button>
@@ -340,7 +568,7 @@ const FreelanceEditor = ({ data, onSave, saving }) => {
     available: fs.available ?? true,
     availabilityText: fs.availabilityText || 'Open to Work',
     hourlyRate: fs.hourlyRate || '$25/hr',
-    preferredWorkTypes: fs.preferredWorkTypes || ['Remote Work', 'Freelance Projects', 'Contract Work', 'Full-time'],
+    preferredWorkTypes: fs.preferredWorkTypes || ['Remote', 'Hybrid', 'Full-time', 'Part-time', 'Contract', 'Freelance'],
     consultationOffer: fs.consultationOffer || 'First 30 min consultation is free',
     consultationCtaText: fs.consultationCtaText || 'Book Free Consultation',
     responseTime: fs.responseTime || 'Usually responds within 24 hours',
@@ -349,7 +577,7 @@ const FreelanceEditor = ({ data, onSave, saving }) => {
     hireCtaText: fs.hireCtaText || 'Hire Me for Your Project',
   });
 
-  const workTypes = ['Remote Work', 'Freelance Projects', 'Contract Work', 'Full-time'];
+  const workTypes = ['Remote', 'Hybrid', 'Full-time', 'Part-time', 'Contract', 'Freelance'];
 
   const toggleWorkType = (type) => {
     setForm((f) => ({
@@ -672,6 +900,7 @@ const ExperienceEditor = ({ data, onSave, saving }) => {
         role: '',
         dateRange: '',
         jobType: 'Full-time',
+        location: 'Remote',
         description: '',
         achievements: [],
         technologies: [],
@@ -698,7 +927,7 @@ const ExperienceEditor = ({ data, onSave, saving }) => {
       </div>
       {exp.map((job, i) => (
         <div key={job.id} className="admin-item-card">
-          {['company', 'role', 'dateRange', 'jobType', 'description'].map((key) => (
+          {['company', 'role', 'dateRange', 'location', 'description'].map((key) => (
             <div key={key} className="admin-field-group">
               <label>{key}</label>
               <input
@@ -706,9 +935,22 @@ const ExperienceEditor = ({ data, onSave, saving }) => {
                 value={job[key] || ''}
                 onChange={(e) => update(i, { [key]: e.target.value })}
                 className="admin-input"
+                placeholder={key === 'location' ? 'e.g. Remote, Dhaka, Bangladesh' : ''}
               />
             </div>
           ))}
+          <div className="admin-field-group">
+            <label>jobType</label>
+            <select
+              value={job.jobType || 'Full-time'}
+              onChange={(e) => update(i, { jobType: e.target.value })}
+              className="admin-input"
+            >
+              {['Full-time', 'Part-time', 'Contract', 'Remote', 'Hybrid', 'Freelance', 'Internship'].map((opt) => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
+            </select>
+          </div>
           <div className="admin-field-group">
             <label>achievements (one per line)</label>
             <textarea

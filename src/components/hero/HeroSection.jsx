@@ -7,6 +7,25 @@ import HeroCanvas from './HeroCanvas';
 import Reveal from '../ui/Reveal';
 
 const CODE_LINES = [
+  
+  '$ source venv/bin/activate',
+  '  >> (venv) activated ✓',
+  '$ pip install django',
+  '  >> django 5.0 installed ✓',
+  '$ python manage.py migrate',
+  '  >> migrations applied ✓',
+  '$ python manage.py runserver',
+  '  >> Running at http://127.0.0.1:8000/ ✓',
+  '$ pip install fastapi',
+  '  >> fastapi installed ✓',
+  '$ uvicorn main:app --reload',
+  '  >> Uvicorn running on http://127.0.0.1:8000 ✓',
+  '$ docker compose up -d',
+  '  >> container started successfully ✓',
+  '$ git pull origin main',
+  '  >> Already up to date ✓',
+  '$ git merge feature-branch',
+  '  >> merge complete ✓',
   '$ python train.py --epochs 20',
   '  >> loss: 0.0412  acc: 97.3% ✓',
   '$ kubectl apply -f deploy.yaml',
@@ -67,6 +86,7 @@ export default function HeroSection() {
 
       <div className="container" style={{ position: 'relative', zIndex: 2, width: '100%' }}>
         <div
+          className="hero-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 400px',
@@ -225,6 +245,7 @@ export default function HeroSection() {
       </div>
 
       <div
+        className="hero-scroll-hint"
         style={{
           position: 'absolute',
           bottom: '28px',
@@ -240,6 +261,15 @@ export default function HeroSection() {
       >
         scroll ↓
       </div>
+      <style>{`
+        @media (max-width: 900px) {
+          .hero-grid { grid-template-columns: 1fr !important; gap: 40px; }
+          .term.hide-mobile { display: none !important; }
+        }
+        @media (max-width: 480px) {
+          #hero { padding: 90px 16px 50px !important; }
+        }
+      `}</style>
     </section>
   );
 }

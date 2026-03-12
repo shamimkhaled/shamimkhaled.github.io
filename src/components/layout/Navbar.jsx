@@ -6,6 +6,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 
 const NAV_LINKS = [
   { label: 'About', hash: 'about' },
+  { label: 'Services', hash: 'services' },
   { label: 'Skills', hash: 'skills' },
   { label: 'Work', hash: 'projects-preview' },
   { label: 'Experience', hash: 'experience' },
@@ -39,15 +40,16 @@ export default function Navbar() {
 
   return (
     <nav
+      className="navbar-theme"
       style={{
         position: 'fixed',
         top: 0,
         left: 0,
         right: 0,
         zIndex: 1000,
-        background: scrolled ? 'rgba(8,8,15,0.93)' : 'transparent',
+        background: scrolled ? 'var(--nav-bg)' : 'transparent',
         backdropFilter: scrolled ? 'blur(22px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(255,255,255,0.07)' : 'none',
+        borderBottom: scrolled ? '1px solid var(--gb)' : 'none',
         transition: 'all 0.3s',
       }}
     >
@@ -91,17 +93,13 @@ export default function Navbar() {
           <button
             type="button"
             onClick={toggleTheme}
-            style={{
-              background: 'var(--glass)',
-              border: '1px solid var(--gb)',
-              borderRadius: '8px',
-              padding: '7px 10px',
-              cursor: 'pointer',
-              fontSize: '14px',
-            }}
-            aria-label={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+            className="theme-toggle-btn"
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
           >
-            {theme === 'dark' ? '☀' : '🌙'}
+            <span className="theme-toggle-icon" aria-hidden>
+              {theme === 'dark' ? '☀️' : '🌙'}
+            </span>
           </button>
           <Link
             to="/"
@@ -132,16 +130,7 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <div
-          style={{
-            background: 'rgba(8,8,15,0.97)',
-            padding: '20px 24px',
-            borderTop: '1px solid var(--gb)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '12px',
-          }}
-        >
+        <div className="navbar-mobile-menu" style={{ background: 'var(--nav-bg)' }}>
           {NAV_LINKS.map((l) => (
             <button key={l.hash} type="button" className="navlnk" style={{ textAlign: 'left', fontSize: '15px', padding: '8px 0' }} onClick={() => navTo(l.hash)}>
               {l.label}
@@ -153,6 +142,15 @@ export default function Navbar() {
           <Link to="/blog" className="navlnk" style={{ textAlign: 'left', fontSize: '15px', padding: '8px 0', textDecoration: 'none' }} onClick={() => setOpen(false)}>
             Blog
           </Link>
+          <button
+            type="button"
+            onClick={() => { toggleTheme(); }}
+            className="theme-toggle-btn theme-toggle-mobile"
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            style={{ alignSelf: 'flex-start', marginTop: '8px' }}
+          >
+            <span className="theme-toggle-icon" aria-hidden>{theme === 'dark' ? '☀️ Light' : '🌙 Dark'}</span>
+          </button>
           <a href={`mailto:${designProfile.email}`} className="btn bc1" style={{ justifyContent: 'center', textDecoration: 'none', marginTop: '8px' }} onClick={() => setOpen(false)}>
             Hire Me
           </a>
@@ -160,6 +158,37 @@ export default function Navbar() {
       )}
 
       <style>{`
+        .navbar-mobile-menu {
+          padding: 20px 24px;
+          border-top: 1px solid var(--gb);
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+        .theme-toggle-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 44px;
+          min-height: 44px;
+          padding: 8px 12px;
+          background: var(--glass);
+          border: 2px solid var(--gb);
+          border-radius: 10px;
+          cursor: pointer;
+          font-size: 18px;
+          color: var(--txt);
+          transition: all 0.2s ease;
+        }
+        .theme-toggle-btn:hover, .theme-toggle-btn:focus-visible {
+          border-color: var(--p);
+          background: rgba(0, 212, 255, 0.08);
+          color: var(--p);
+          box-shadow: 0 0 12px rgba(0, 212, 255, 0.2);
+          outline: none;
+        }
+        .theme-toggle-mobile { min-width: auto; font-size: 14px; gap: 6px; }
+        .theme-toggle-icon { line-height: 1; }
         .hide-desktop { display: none !important; }
         @media (max-width: 768px) {
           .hide-mobile { display: none !important; }

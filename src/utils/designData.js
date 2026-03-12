@@ -6,12 +6,12 @@ export function getDesignProfile(profile, freelanceSettings = {}) {
   const social = profile?.social || {};
   const devtoUrl = social.devto || '';
   const devtoUsername = devtoUrl ? devtoUrl.replace(/^https?:\/\/(www\.)?dev\.to\//, '').replace(/\/$/, '') : 'shamimkhaled';
-  const heroTitles = profile?.heroTitles || ['Full Stack Developer', 'Python Expert', 'Django Specialist', 'React Developer', 'API Architect'];
+  const heroTitles = profile?.heroTitles || ['Machine Learning Engineer', 'Python Developer', 'Django Specialist', 'DevOps Engineer', 'API Architect'];
   const availabilityText = freelanceSettings?.availabilityText || 'Open to Freelance & Remote Work';
   const hourlyRate = freelanceSettings?.hourlyRate || '$25/hr';
   const responseTime = freelanceSettings?.responseTime || 'Within 24 hours';
   const consultationText = freelanceSettings?.consultationOffer || 'First 30-min consultation is FREE';
-  const workTypes = freelanceSettings?.preferredWorkTypes || ['Remote Work', 'Freelance', 'Contract', 'Full-time'];
+  const workTypes = freelanceSettings?.preferredWorkTypes || ['Remote', 'Hybrid', 'Full-time', 'Part-time', 'Contract', 'Freelance'];
   return {
     name: profile?.name || 'Shamim Khaled',
     title: profile?.title || 'Full Stack Developer',
