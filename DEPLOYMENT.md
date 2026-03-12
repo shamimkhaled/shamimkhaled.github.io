@@ -79,7 +79,8 @@ For deploys that run on GitHub (when you push to `main`), credentials go in **Re
 ### Option A: Deploy from GitHub (automatic)
 
 1. Add the secrets above.
-2. Push to `main` or `master`:
+2. **Enable Pages** (one-time): **Settings** → **Pages** → Source: **Deploy from a branch** → Branch: `gh-pages` / `/(root)` → Save.
+3. Push to `main` or `master`:
 
    ```bash
    git add .
@@ -87,9 +88,7 @@ For deploys that run on GitHub (when you push to `main`), credentials go in **Re
    git push origin main
    ```
 
-3. The workflow (`.github/workflows/deploy.yml`) will build and deploy.
-
-4. Enable Pages: **Settings** → **Pages** → Source: **GitHub Actions**.
+4. The workflow builds and pushes to the `gh-pages` branch. Your site will be live at the Pages URL.
 
 ### Option B: Deploy from your machine
 
