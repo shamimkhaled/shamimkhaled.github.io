@@ -12,10 +12,12 @@
 /build
 
 # misc
+.env.local
 .DS_Store
- .env
+.env
 .env.local
 .env.development.local
+.en.v.test.local
 .env.test.local
 .env.production.local
 
